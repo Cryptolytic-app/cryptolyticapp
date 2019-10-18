@@ -6,7 +6,7 @@ import boto3
 import os
 from base64 import b64decode
 
-#  supported trading pairs
+# supported trading pairs
 bitfinex_pairs = ['bchbtc', 'bchusd', 'btcusd',
                   'btcusdt', 'dashbtc', 'dashusd', 'eosbtc', 'eosusd',
                   'eosusdt', 'etcbtc', 'etcusd', 'ethbtc', 'ethusd',
@@ -70,10 +70,10 @@ credentials = {'POSTGRES_ADDRESS': DECRYPTED_POSTGRES_ADDRESS,
                'API_KEY': DECRYPTED_API_KEY
                }
 
-def insert_data(credentials, exchanges, period='300'):
+def insert_data(credentials, exchanges, periods=['300','3600']):
     """ This function connects to a database and inserts live data
         from cryptowatch API into tables for each exchange/trading
-        pair combination. Option to select a period (60, 300, 3600; default=300)"""
+        pair combination. Option to select a period ('60', '300', '3600'; default=['300', '3600'])"""
 
     # connect to database
     conn = ps.connect(host=credentials['POSTGRES_ADDRESS'], database=credentials['POSTGRES_DBNAME'],
@@ -91,40 +91,68 @@ def insert_data(credentials, exchanges, period='300'):
     # iterate through all exchange/trading pair combinations
     for exchange in exchanges:
         for trading_pair in exchanges[exchange]:
+            for period in periods:
 
-            # table name in database
-            table_name = '_'.join(exchange.split('-')) + '_' + trading_pair
+                # define schemas in database
+                if period =='300':
+                    schema = 'fiveminute'
+                if period =='3600':
+                    schema = 'onehour'
 
-            # get current time and end time to limit number of results returned
-            now = round(time.time())
-            cutoff_time = str(now - 10000)
+                # table name in database
+                table_name = '_'.join(exchange.split('-')) + '_' + trading_pair
 
-            # generate url
-            url = base_url.format(exchange=exchange, trading_pair=trading_pair
-                                  , api_key=api_key, period=period, cutoff_time=cutoff_time)
+                # get current time and end time to limit number of results returned
+                now = round(time.time())
+                cutoff_time = str(now - 10000)
 
-            try:
-                # get request ohlcv data
-                response = requests.get(url).json()
-                now = round(time.time()) - 60
+                # generate url
+                url = base_url.format(exchange=exchange, trading_pair=trading_pair
+                                   , api_key=api_key, period=period, cutoff_time=cutoff_time)
 
-                if len(response['result'][period]) > 0:
+                try:
+                    # get response
+                    response = requests.get(url).json()
+                    retrieval_time = round(time.time())
+                    candles = response['result'][period]
 
-                    if response['result'][period][-1][0] < now:
-                        new_data = response['result'][period][-1][:6]
+                    # get the last 5 timestamps
+                    cur.execute("SELECT time FROM {schema}.{table_name} order by time desc limit 5".format(
+                                schema=schema, table_name=table_name))
+                    results = cur.fetchall()
+                    timestamps = [result[0] for result in results]
 
-                    # get second to last data row if the last data row doesn't work
-                    elif len(response['result'][period]) > 1:
-                        new_data = response['result'][period][-2][:6]
+                    # get the second to last candle from cryptowatch
+                    # this is to ensure that there are no gaps left in
+                    # the data bc cryptowatch may have gaps where they
+                    # don't update for 10 mins and you would miss a candle
+                    # if you don't consider including both
+                    second_to_last_candle = candles[-2]
+                    if second_to_last_candle[0] not in timestamps:
+                        new_data = second_to_last_candle[:6]
+                        insert_query = """INSERT INTO {schema}.{table_name}
+                                          (time, open, high, low, close, volume)
+                                          VALUES (%s, %s, %s, %s, %s, %s)
+                                          """.format(schema=schema, table_name=table_name)
+                        cur.execute(insert_query, new_data)
 
-                        # insert into table
-                    insert_query = """INSERT INTO {table_name} (time, open, high, 
-                                    low, close, volume) VALUES (%s, %s, %s, %s,
-                                    %s, %s)""".format(table_name=table_name)
-                    cur.execute(insert_query, new_data)
+                    cur.execute("SELECT time FROM {schema}.{table_name} order by time desc limit 5".format(
+                                schema=schema, table_name=table_name))
+                    results = cur.fetchall()
+                    timestamps = [result[0] for result in results]
 
-            except:
-                pass
+                    last_candle = candles[-1]
+                    if last_candle[0] + 60 < retrieval_time:
+                        if last_candle[0] not in timestamps:
+                            new_data = last_candle[:6]
+                            insert_query = """INSERT INTO {schema}.{table_name}
+                                              (time, open, high, low, close, volume)
+                                              VALUES (%s, %s, %s, %s, %s, %s)
+                                              """.format(schema=schema, table_name=table_name)
+                            cur.execute(insert_query, new_data)
+
+                except:
+                    pass
 
     # commit and close
     conn.commit()
@@ -133,6 +161,6 @@ def insert_data(credentials, exchanges, period='300'):
 
 def lambda_handler(event, context):
 
-    period = '300'
-    insert_data(credentials, exchanges, period)
+    periods = ['300', '3600']
+    insert_data(credentials, exchanges, periods)
     return 'success!'

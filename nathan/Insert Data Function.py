@@ -55,9 +55,10 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
                     candles = response['result'][period]
 
                     # get timestamps for last 12 candles in database
-                    cur.execute('''SELECT time FROM {schema}.{table_name}
-                                order by time desc limit 12'''.format(
-                                schema=schema, table_name=table_name))
+                    cur.execute('''SELECT closing_time FROM {schema}.
+                                {table_name} order by closing_time desc limit
+                                12'''.format(schema=schema,
+                                             table_name=table_name))
                     results = cur.fetchall()
                     timestamps = [result[0] for result in results]
 
@@ -70,8 +71,8 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
                             new_data = candle[:6]
                             insert_query = ('INSERT INTO '
                                             '{schema}.{table_name} '
-                                            '(time, open, high, low, '
-                                            'close, volume) VALUES (%s, '
+                                            '(closing_time, open, high, low, '
+                                            'close, base_volume) VALUES (%s, '
                                             '%s, %s, %s, %s, %s)'
                                            ).format(schema=schema,
                                                     table_name=table_name)

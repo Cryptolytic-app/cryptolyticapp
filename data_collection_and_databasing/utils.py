@@ -1,17 +1,18 @@
+# Before running the create_tables function in this file, add two schemas to
+# your PostgreSQL database, one named 'fiveminute', the other named 'onehour'.
+
 import psycopg2 as ps
 
 # Define credentials.
-
 credentials = {'POSTGRES_ADDRESS' : '#',
                'POSTGRES_PORT' : '#',
                'POSTGRES_USERNAME' : '#',
-               'POSTGRES_PASSWORD' : '#!',
+               'POSTGRES_PASSWORD' : '#',
                'POSTGRES_DBNAME' : '#',
                'API_KEY' : '#'}
 
 # Define currency pairs within each exchange and create the names of the 
 # tables for each exchange.
-
 coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
                       'dash_usd', 'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc',
                       'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
@@ -34,7 +35,6 @@ coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in
                            coinbase_pro_pairs]
 
 # Define create_tables function.
-
 def create_tables(credentials):
     '''Connects to a PostgreSQL database and adds tables to each respective 
     schema.'''

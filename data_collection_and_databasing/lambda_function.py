@@ -1,3 +1,35 @@
+import psycopg2 as ps
+import requests
+import time
+
+# defining credentials
+credentials = {'POSTGRES_ADDRESS' : '#',
+               'POSTGRES_PORT' : '#',
+               'POSTGRES_USERNAME' : '#',
+               'POSTGRES_PASSWORD' : '#',
+               'POSTGRES_DBNAME' : '#',
+               'API_KEY' : '#'}
+
+# supported trading pairs
+coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
+                      'dash_usd', 'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc',
+                      'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
+                      'xrp_usd', 'zec_usdc', 'zrx_usd']
+bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt', 
+                  'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt', 
+                  'etc_usd', 'eth_btc', 'eth_usd', 'eth_usdt', 'ltc_btc',
+                  'ltc_usd', 'ltc_usdt', 'xrp_btc', 'xrp_usd', 'zec_usd',
+                  'zrx_usd']
+hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
+                'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc', 
+                'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc', 
+                'xrp_usdt', 'zec_usdt', 'zrx_usdt']
+
+# supported exchanges
+exchanges = {'bitfinex': bitfinex_pairs,
+             'coinbase-pro': coinbase_pro_pairs,
+             'hitbtc': hitbtc_pairs}
+
 def insert_data(credentials, exchanges, periods=['300','3600']):
     """This function connects to a database and inserts live data from
     cryptowatch API into tables for each exchange/trading pair combination.

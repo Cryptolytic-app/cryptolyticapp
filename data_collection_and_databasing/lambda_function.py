@@ -109,7 +109,7 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
                     response = requests.get(url).json()
                     candles = response['result'][period]
                     
-                    # get timestamps for last 12 candles in database
+                    # getting timestamps from candles already in database
                     cur.execute('''SELECT closing_time FROM {schema}.
                                 {table_name} order by closing_time desc
                                 '''.format(schema=schema,

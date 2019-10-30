@@ -47,7 +47,7 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
 
     # cryptowatch API URL
     base_url = ('https://api.cryptowat.ch/markets/{exchange}/{trading_pair}/'
-                'ohlc?apikey={api_key}&periods={period}&after={cutoff_time}')
+                'ohlc?apikey={api_key}&periods={period}')
 
     # cryptowatch api key
     api_key = credentials['API_KEY']
@@ -67,10 +67,6 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
                 table_name = ('_'.join(exchange.split('-')) + '_' +
                               trading_pair)
                 
-                # use current time to calculate window for past 12 candles
-                now = round(time.time())
-                cutoff_time = str(now - (12 * int(period)))
-                
                 # cryptowatch wants the trading pair without the underscore
                 cleaned_trading_pair = trading_pair.replace('_', '')
 
@@ -78,19 +74,18 @@ def insert_data(credentials, exchanges, periods=['300','3600']):
                 url = base_url.format(exchange=exchange,
                                       trading_pair=cleaned_trading_pair,
                                       api_key=api_key,
-                                      period=period,
-                                      cutoff_time=cutoff_time)
-
+                                      period=period)
+                
                 try:
                     # get response
                     response = requests.get(url).json()
                     candles = response['result'][period]
-
-                    # get timestamps for last 12 candles in database
+                    
+                    # getting timestamps from candles already in database
                     cur.execute('''SELECT closing_time FROM {schema}.
-                                {table_name} order by closing_time desc limit
-                                12'''.format(schema=schema,
-                                             table_name=table_name))
+                                {table_name} order by closing_time desc
+                                '''.format(schema=schema,
+                                           table_name=table_name))
                     results = cur.fetchall()
                     timestamps = [result[0] for result in results]
 

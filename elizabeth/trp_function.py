@@ -5,39 +5,16 @@ import datetime as dt
 import numpy as np
 import psycopg2 as ps
 import boto3
+# import os
 
-# get every table in database
-# Define currency pairs within each exchange and create the names of the
-# tables for each exchange.
-# coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
-# #                       'dash_usd', 'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc',
-# #                       'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
-# #                       'xrp_usd', 'zec_usdc', 'zrx_usd']
-# # bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt',
-# #                   'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt',
-# #                   'etc_usd', 'eth_btc', 'eth_usd', 'eth_usdt', 'ltc_btc',
-# #                   'ltc_usd', 'ltc_usdt', 'xrp_btc', 'xrp_usd', 'zec_usd',
-# #                   'zrx_usd']
-# # hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
-# #                 'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc',
-# #                 'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc',
-# #                 'xrp_usdt', 'zec_usdt', 'zrx_usdt']
+# input credentials for aws postgres db
+credentials = {'POSTGRES_ADDRESS' : '',
+               'POSTGRES_PORT' : '',
+               'POSTGRES_USERNAME' : '',
+               'POSTGRES_PASSWORD' : '',
+               'POSTGRES_DBNAME' : ''}
 
-# using only 3 trading pairs from each exchange to test
-coinbase_pro_pairs = ['btc_usd', 'eth_usd', 'ltc_usd']
-bitfinex_pairs = [ 'btc_usd', 'eth_usd', 'ltc_usd']
-hitbtc_pairs = ['btc_usdt', 'eth_usdt', 'ltc_usdt']
-
-hitbtc_table_list = ['hitbtc_' + pair for pair in hitbtc_pairs]
-
-bitfinex_table_list = ['bitfinex_' + pair for pair in bitfinex_pairs]
-
-coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in
-                           coinbase_pro_pairs]
-
-table_names = hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list
-
-# # option to encrypt and decrypt keys for aws
+# decrypt encrypted creds from aws
 # ENCRYPTED_POSTGRES_ADDRESS = os.environ['POSTGRES_ADDRESS']
 # DECRYPTED_POSTGRES_ADDRESS = boto3.client('kms').decrypt(CiphertextBlob=b64decode(ENCRYPTED_POSTGRES_ADDRESS))[
 #     'Plaintext'].decode()
@@ -58,10 +35,6 @@ table_names = hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list
 # DECRYPTED_POSTGRES_DBNAME = boto3.client('kms').decrypt(CiphertextBlob=b64decode(ENCRYPTED_POSTGRES_DBNAME))[
 #     'Plaintext'].decode()
 #
-# ENCRYPTED_POSTGRES_PORT = os.environ['POSTGRES_PORT']
-# DECRYPTED_POSTGRES_PORT = boto3.client('kms').decrypt(CiphertextBlob=b64decode(ENCRYPTED_POSTGRES_PORT))[
-#     'Plaintext'].decode()
-
 # credentials = {'POSTGRES_ADDRESS': DECRYPTED_POSTGRES_ADDRESS,
 #                'POSTGRES_PORT': DECRYPTED_POSTGRES_PORT,
 #                'POSTGRES_USERNAME': DECRYPTED_POSTGRES_USERNAME,
@@ -69,17 +42,42 @@ table_names = hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list
 #                'POSTGRES_DBNAME': DECRYPTED_POSTGRES_DBNAME
 #                }
 
-credentials = {'POSTGRES_ADDRESS' : '',
-               'POSTGRES_PORT' : '',
-               'POSTGRES_USERNAME' : '',
-               'POSTGRES_PASSWORD' : '',
-               'POSTGRES_DBNAME' : ''}
+# get every table in database
+# Define currency pairs within each exchange and create the names of the
+# tables for each exchange.
+# coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
+# #                       'dash_usd', 'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc',
+# #                       'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
+# #                       'xrp_usd', 'zec_usdc', 'zrx_usd']
+# # bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt',
+# #                   'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt',
+# #                   'etc_usd', 'eth_btc', 'eth_usd', 'eth_usdt', 'ltc_btc',
+# #                   'ltc_usd', 'ltc_usdt', 'xrp_btc', 'xrp_usd', 'zec_usd',
+# #                   'zrx_usd']
+# # hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
+# #                 'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc',
+# #                 'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc',
+# #                 'xrp_usdt', 'zec_usdt', 'zrx_usdt']
+
+
+coinbase_pro_pairs = ['btc_usd', 'eth_usd', 'ltc_usd']
+bitfinex_pairs = ['btc_usd', 'eth_usd', 'ltc_usd']
+hitbtc_pairs = ['btc_usdt', 'eth_usdt', 'ltc_usdt']
+
+bitfinex_table_list = ['bitfinex_' + pair for pair in bitfinex_pairs]
+
+coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in
+                           coinbase_pro_pairs]
+
+hitbtc_table_list = ['hitbtc_' + pair for pair in hitbtc_pairs]
+
+table_names = bitfinex_table_list + coinbase_pro_table_list + hitbtc_table_list
 
 
 # Database connection
 def create_conn(credentials):
 
-    # connect to database
+    # create database connection
     conn = ps.connect(host=credentials['POSTGRES_ADDRESS'],
                       database=credentials['POSTGRES_DBNAME'],
                       user=credentials['POSTGRES_USERNAME'],
@@ -125,13 +123,12 @@ def change_ohlcv_time(df, period):
     df = df.set_index(['date'])
 
     # Aggregation function
-    ohlc_dict = {
-    'open':'first',
-    'high':'max',
-    'low':'min',
-    'close': 'last',
-    'base_volume': 'sum'
-    }
+    ohlc_dict = {'open':'first',
+                 'high':'max',
+                 'low':'min',
+                 'close': 'last',
+                 'base_volume': 'sum'
+                }
 
     # Apply resampling.
     df = df.resample(period, how=ohlc_dict, closed='left', label='left')
@@ -221,6 +218,11 @@ def prediction_to_database(table_names):
     #                      aws_access_key_id=aws_access_key_id,
     #                      aws_secret_access_key=aws_secret_access_key)
 
+    # Get Rid of when pushed to GitHub
+    s3 = boto3.resource('s3',
+                        aws_access_key_id='',
+                        aws_secret_access_key='')
+
     # iterate through each table in database
     for table_name in table_names:
         print('---------------STARTING {table_name}-----------------'.format(table_name=table_name))
@@ -232,15 +234,16 @@ def prediction_to_database(table_names):
             exchange = table_name.split('_')[0]
             trading_pair = table_name.split('_')[1] + '_' + table_name.split('_')[2]
 
+        # Conditional to catch duplicates
         # Fetch all columns with correct exchange/trading_pair
-        select_query = ("""SELECT time FROM prediction.trp
+        select_query = ("""SELECT p_time FROM prediction.trp3
                           WHERE exchange = '{exchange}'
                           AND trading_pair = '{trading_pair}'
-                          ORDER BY time desc LIMIT 100;""".format(exchange=exchange, trading_pair=trading_pair))
+                          ORDER BY p_time desc LIMIT 100;""".format(exchange=exchange, trading_pair=trading_pair))
 
         cursor.execute(select_query)
         timestamps = cursor.fetchall()
-        timestamps = [timestamps[0][0] for timestamp in timestamps]
+        timestamps = [timestamp[0] for timestamp in timestamps]
         print('timestamps', timestamps)
 
         # define schema
@@ -248,19 +251,18 @@ def prediction_to_database(table_names):
 
         # get last column of prediction data
         data_df = retrieve_data(cursor, table_name, schema)
-        print('retrieved_data', data_df)
+        # print('retrieved_data', data_df)
 
         # get time of prediction
         date = pd.to_datetime(data_df['closing_time'][-1:], unit='s').values[0]
         prediction_time = np64_to_utc(str(date))
-        print(timestamps)
 
-        # Conditional to catch duplicates
         if str(prediction_time) not in timestamps:
             # iterate through the data and engineer features
             df, prediction_time = engineer_features(data_df)
+            print('features engineered')
 
-            # define bucket
+            # bucket
             bucket = ''
 
             # define model
@@ -279,13 +281,14 @@ def prediction_to_database(table_names):
                 pred = 'Down'
 
             # Creating the Output Result of our Prediction
-            result = [str(prediction_time), exchange, trading_pair, pred]
+            result = [str(prediction_time), str(dt.datetime.utcnow()), exchange, trading_pair, pred]
             print(result)
-            print(type(result))
+            print(type(result[0]))
+            print(type(result[1]))
 
-            insert_query = """INSERT INTO prediction.trp 
-                              (time, exchange, trading_pair, result)
-                              VALUES (%s, %s, %s, %s)"""
+            insert_query = """INSERT INTO prediction.trp3 
+                              (p_time, c_time, exchange, trading_pair, prediction)
+                              VALUES (%s, %s, %s, %s, %s)"""
             cursor.execute(insert_query, result)
 
             print('inserted into db!')

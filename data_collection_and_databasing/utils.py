@@ -1,9 +1,6 @@
-# Before running the create_tables function in this file, add two schemas to
-# your PostgreSQL database, one named 'fiveminute', the other named 'onehour'.
-
 import psycopg2 as ps
 
-# Define credentials.
+# Credentials
 credentials = {'POSTGRES_ADDRESS' : '#',
                'POSTGRES_PORT' : '#',
                'POSTGRES_USERNAME' : '#',
@@ -11,17 +8,36 @@ credentials = {'POSTGRES_ADDRESS' : '#',
                'POSTGRES_DBNAME' : '#',
                'API_KEY' : '#'}
 
+# Define postgres_db_conn function.
+def postgres_db_conn(credentials):
+
+    # Create database connection.
+    conn = ps.connect(host=credentials['POSTGRES_ADDRESS'],
+                      database=credentials['POSTGRES_DBNAME'],
+                      user=credentials['POSTGRES_USERNAME'],
+                      password=credentials['POSTGRES_PASSWORD'],
+                      port=credentials['POSTGRES_PORT'])
+
+    cur = conn.cursor()
+    return conn, cur
+
+# Before running the functions below, add two schemas to
+# your PostgreSQL database, one named 'fiveminute', the other named 'onehour'.
+
 # Define currency pairs within each exchange and create the names of the 
 # tables for each exchange.
+
 coinbase_pro_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'btc_usdc', 'dash_btc',
                       'dash_usd', 'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc',
                       'eth_usd', 'eth_usdc', 'ltc_btc', 'ltc_usd', 'xrp_btc',
                       'xrp_usd', 'zec_usdc', 'zrx_usd']
+
 bitfinex_pairs = ['bch_btc', 'bch_usd', 'bch_usdt', 'btc_usd', 'btc_usdt', 
                   'dash_btc', 'dash_usd', 'eos_btc', 'eos_usd', 'eos_usdt', 
                   'etc_usd', 'eth_btc', 'eth_usd', 'eth_usdt', 'ltc_btc',
                   'ltc_usd', 'ltc_usdt', 'xrp_btc', 'xrp_usd', 'zec_usd',
                   'zrx_usd']
+                  
 hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
                 'dash_usdt', 'eos_btc', 'eos_usdt', 'etc_usdt', 'eth_btc', 
                 'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc', 
@@ -39,16 +55,8 @@ def create_tables(credentials):
     '''Connects to a PostgreSQL database and adds tables to each respective 
     schema.'''
 
-    # Create connection.
-    conn = ps.connect(host=credentials['POSTGRES_ADDRESS'],
-                      port=credentials['POSTGRES_PORT'],
-                      user=credentials['POSTGRES_USERNAME'],
-                      password=credentials['POSTGRES_PASSWORD'],
-                      database=credentials['POSTGRES_DBNAME'])
-
-
-    # Create a cursor.
-    cur = conn.cursor()
+    # Create connection and cursor to database.
+    conn, cur = create_conn(credentials)
     
     # Define schemas and table_list.
     schemas = ['fiveminute', 'onehour']
@@ -73,4 +81,55 @@ def create_tables(credentials):
     conn.commit()
     
     print("Tables created successfully!")
+    conn.close()
+ 
+# Define insert_csv_to_db function.
+def insert_csv_to_db(credentials):
+  '''Connects to a PostgreSQL database and imports csv files into a specified schema
+  and table name.'''
+    
+    # Create connection and cursor to database.
+    conn, cur = create_conn(credentials)
+
+    print("Connect to database.")
+
+    for directory in os.listdir('data'):
+        if directory != '.DS_Store':
+            for filename in os.listdir('data/' + directory):
+                if filename.endswith('300.csv'):
+                    schema = 'fiveminute'
+                    table_name = filename.replace('_300.csv', '')
+                elif filename.endswith('3600.csv'):
+                    schema = 'onehour'
+                    table_name = filename.replace('_3600.csv', '')
+                with open('data/' + directory + '/' + filename, 'r') as f:
+                    # Skip the header row.
+                    next(f) 
+                    cur.copy_from(f, '{schema}.{table_name}'.format(schema=schema, table_name=table_name), sep=',')
+                    conn.commit()
+
+    conn.close()
+    print('Done!')
+
+# Define drop_column function.
+def drop_column(credentials):
+  '''Connects to a PostgreSQL database and drops a table column, in this case ID,
+  from all tables within each schema.'''
+    
+    # Create connection and cursor to database.
+    conn, cur = create_conn(credentials)
+    
+    print("Connect to database.")
+    
+    schemas = ['fiveminute', 'onehour']
+    table_list = (hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list)
+    
+    for schema in schemas:
+        for table_name in table_list:
+            cur.execute('''ALTER TABLE {schema}.{table_name} DROP COLUMN ID;'''.format(schema=schema, table_name=table_name))
+    
+    # Commit and close. Verify that tables were created successfully.
+    conn.commit()
+    
+    print("Column removed.")
     conn.close()

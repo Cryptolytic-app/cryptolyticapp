@@ -43,12 +43,23 @@ hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
                 'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc', 
                 'xrp_usdt', 'zec_usdt', 'zrx_usdt']
 
+gemini_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'eth_btc', 'eth_usd',
+                'ltc_btc', 'ltc_usd', 'zec_usd']
+
+kraken_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'dash_btc', 'dash_usd',
+                'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc', 'eth_usd', 
+                'ltc_btc', 'ltc_usd', 'xrp_btc', 'xrp_usd', 'zec_usd']
+
 hitbtc_table_list = ['hitbtc_' + pair for pair in hitbtc_pairs]
 
 bitfinex_table_list = ['bitfinex_' + pair for pair in bitfinex_pairs]
 
 coinbase_pro_table_list = ['coinbase_pro_' + pair for pair in 
                            coinbase_pro_pairs]
+
+gemini_table_list = ['gemini_' + pair for pair in gemini_pairs]
+
+kraken_table_list = ['kraken_' + pair for pair in kraken_pairs]
 
 # Define create_tables function.
 def create_tables(credentials):
@@ -62,7 +73,7 @@ def create_tables(credentials):
     schemas = ['fiveminute', 'onehour']
     
     table_list = (hitbtc_table_list + bitfinex_table_list + 
-                  coinbase_pro_table_list)
+                  coinbase_pro_table_list + gemini_table_list + kraken_table_list)
     
     # Loop through schemas and table_list.
     for schema in schemas:
@@ -122,7 +133,7 @@ def drop_column(credentials):
     print("Connect to database.")
     
     schemas = ['fiveminute', 'onehour']
-    table_list = (hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list)
+    table_list = (hitbtc_table_list + bitfinex_table_list + coinbase_pro_table_list + gemini_table_list + kraken_table_list)
     
     for schema in schemas:
         for table_name in table_list:

@@ -26,10 +26,19 @@ hitbtc_pairs = ['bch_btc', 'bch_usdt', 'btc_usdc', 'btc_usdt', 'dash_btc',
                 'eth_usdc', 'eth_usdt', 'ltc_btc', 'ltc_usdt', 'xrp_btc', 
                 'xrp_usdt', 'zec_usdt', 'zrx_usdt']
 
+gemini_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'eth_btc', 'eth_usd',
+                'ltc_btc', 'ltc_usd', 'zec_usd']
+
+kraken_pairs = ['bch_btc', 'bch_usd', 'btc_usd', 'dash_btc', 'dash_usd',
+                'eos_btc', 'eos_usd', 'etc_usd', 'eth_btc', 'eth_usd', 
+                'ltc_btc', 'ltc_usd', 'xrp_btc', 'xrp_usd', 'zec_usd']
+
 # Supported exchanges
 exchanges = {'bitfinex': bitfinex_pairs,
              'coinbase-pro': coinbase_pro_pairs,
-             'hitbtc': hitbtc_pairs}
+             'hitbtc': hitbtc_pairs,
+             'gemini': gemini_pairs,
+             'kraken': kraken_pairs}
 
 # Hide credentials         
 POSTGRES_ADDRESS = os.environ['POSTGRES_ADDRESS']

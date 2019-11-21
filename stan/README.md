@@ -1,1 +1,0 @@
-# Stan's Folder

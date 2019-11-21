@@ -58,279 +58,41 @@ Python, AWS, PostgreSQL, SQL, Flask
 
 The Models folder contains two zip files. tr_pickles.zip contains nine pickled trade recommender models. arb_models.zip contains 21 arbitrage models.
 
-The nine models in tr_pickles.zip have the following parameters:
-
-hitbtc_btc_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=17, max_features=40, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-hitbtc_eth_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=50, max_features='auto', max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_btc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=25, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_eth_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=27, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_ltc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=20, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_ltc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=17, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_eth_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=20, max_features=60, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
+The following nine RandomForestClassifier models are contained in tr_pickles.zip.
 
 bitfinex_btc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=25, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
+bitfinex_eth_usd.pkl
+bitfinex_ltc_usd.pkl
+coinbase_pro_btc_usd.pkl
+coinbase_pro_eth_usd.pkl
+coinbase_pro_ltc_usd.pkl
+hitbtc_btc_usdt.pkl
+hitbtc_eth_usdt.pkl
 hitbtc_ltc_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=27, max_features=45, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
 
-The twenty-one models in arb_models.zip have the following parameters:
-
-kraken_gemini_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=21, max_features=65, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_hitbtc_ltc_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=15, max_features=60, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-kraken_gemini_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_hitbtc_eth_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=15, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=150,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_hitbtc_bch_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_coinbase_pro_etc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=15, max_features=70, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_coinbase_pro_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=15, max_features=65, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=150,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
+The following twenty-one RandomForestClassifier models are contained in arb_models.zip.
 
 bitfinex_coinbase_pro_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=15, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_hitbtc_eos_usdt.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=75, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_gemini_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=17, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_coinbase_pro_eth_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=21, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=150,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_hitbtc_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=17, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_gemini_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=25, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_gemini_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=18, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-gemini_hitbtc_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=18, max_features=75, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
 bitfinex_coinbase_pro_bch_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=25, max_features=70, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-gemini_hitbtc_bch_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=17, max_features=75, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
+bitfinex_coinbase_pro_etc_usd.pkl
+bitfinex_coinbase_pro_eth_btc.pkl
+bitfinex_coinbase_pro_ltc_btc.pkl
 bitfinex_coinbase_pro_ltc_usd.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=50, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-coinbase_pro_hitbtc_eth_usdc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=55, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=150,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
-bitfinex_hitbtc_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=14, max_features=75, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=150,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
-
+bitfinex_gemini_bch_btc.pkl
 bitfinex_gemini_ltc_btc.pkl
-RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-                       max_depth=18, max_features=75, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, n_estimators=100,
-                       n_jobs=-1, oob_score=False, random_state=42, verbose=0,
-                       warm_start=False)
+bitfinex_hitbtc_bch_usdt.pkl
+bitfinex_hitbtc_eos_usdt.pkl
+bitfinex_hitbtc_eth_btc.pkl
+bitfinex_hitbtc_ltc_btc.pkl
+bitfinex_hitbtc_ltc_usdt.pkl
+coinbase_pro_gemini_bch_btc.pkl
+coinbase_pro_gemini_ltc_btc.pkl
+coinbase_pro_hitbtc_bch_btc.pkl
+coinbase_pro_hitbtc_eth_usdc.pkl
+gemini_hitbtc_bch_btc.pkl
+gemini_hitbtc_ltc_btc.pkl
+kraken_gemini_bch_btc.pkl
+kraken_gemini_ltc_btc.pkl
 
 ### Features
 

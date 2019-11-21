@@ -95,6 +95,9 @@ def create_tables(credentials):
     conn.close()
  
 # Define insert_csv_to_db function.
+# Within Jupyter Lab, a folder entitled "data" was created. A folder for each exchange was
+# then created within the "data" folder. Each exchange folder then included csv files for all 
+# of the trading pairs supported on that respective exchange and for all intervals (300 and 3600).
 def insert_csv_to_db(credentials):
   '''Connects to a PostgreSQL database and imports csv files into a specified schema
   and table name.'''

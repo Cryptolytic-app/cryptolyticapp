@@ -47,7 +47,7 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 
 🚫  delete if front end is not applicable to your project
 
-1️⃣ [Deployed Front End](🚫add link to deployed app here)
+### Figma Prototype 
 
 ### Tech Stack
 
@@ -57,13 +57,13 @@ Python, AWS, PostgreSQL, SQL, Flask
 
 🚫 Describe your models here
 
-### 2️⃣ Explanatory Variables
+### Features
 
--   Explanatory Variable 1
--   Explanatory Variable 2
--   Explanatory Variable 3
--   Explanatory Variable 4
--   Explanatory Variable 5
+-   Features 1
+-   Features 2
+-   Features 3
+-   Features 4
+-   Features 5
 
 ### Data Sources
 🚫  Add to or delete souce links as needed for your project

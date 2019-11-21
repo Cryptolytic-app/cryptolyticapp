@@ -50,41 +50,74 @@ Python, AWS, PostgreSQL, SQL, Flask
 
 The Models folder contains two zip files. tr_pickles.zip contains nine pickled trade recommender models. arb_models.zip contains 21 arbitrage models.
 
+
 The following nine RandomForestClassifier models are contained in tr_pickles.zip.
 
+
 bitfinex_btc_usd.pkl
+
 bitfinex_eth_usd.pkl
+
 bitfinex_ltc_usd.pkl
+
 coinbase_pro_btc_usd.pkl
+
 coinbase_pro_eth_usd.pkl
+
 coinbase_pro_ltc_usd.pkl
+
 hitbtc_btc_usdt.pkl
+
 hitbtc_eth_usdt.pkl
+
 hitbtc_ltc_usdt.pkl
+
 
 The following twenty-one RandomForestClassifier models are contained in arb_models.zip.
 
+
 bitfinex_coinbase_pro_bch_btc.pkl
+
 bitfinex_coinbase_pro_bch_usd.pkl
+
 bitfinex_coinbase_pro_etc_usd.pkl
+
 bitfinex_coinbase_pro_eth_btc.pkl
+
 bitfinex_coinbase_pro_ltc_btc.pkl
+
 bitfinex_coinbase_pro_ltc_usd.pkl
+
 bitfinex_gemini_bch_btc.pkl
+
 bitfinex_gemini_ltc_btc.pkl
+
 bitfinex_hitbtc_bch_usdt.pkl
+
 bitfinex_hitbtc_eos_usdt.pkl
+
 bitfinex_hitbtc_eth_btc.pkl
+
 bitfinex_hitbtc_ltc_btc.pkl
+
 bitfinex_hitbtc_ltc_usdt.pkl
+
 coinbase_pro_gemini_bch_btc.pkl
+
 coinbase_pro_gemini_ltc_btc.pkl
+
 coinbase_pro_hitbtc_bch_btc.pkl
+
 coinbase_pro_hitbtc_eth_usdc.pkl
+
 gemini_hitbtc_bch_btc.pkl
+
 gemini_hitbtc_ltc_btc.pkl
+
 kraken_gemini_bch_btc.pkl
+
 kraken_gemini_ltc_btc.pkl
+
 
 ### Features
 

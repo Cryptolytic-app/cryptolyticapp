@@ -66,10 +66,15 @@ Each of the nine trade recommender models is trained on 67 features.  Of those 6
 Each of the 21 arbitrage models is trained on 91 features.  Of those 91 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length).  Half of the remaining 84 features are specific to the first of the two exchanges in a given arbitrage dataset and are labelled with the suffix "exchange_1"; the other half are specific to the second of those two exchanges and are labelled with the suffix "exchange_2".  In each of these two sets of 42 features, two are taken directly from the OHLCV data (close_exchange_#, base_volume_exchange_#), one indicates where gaps were present in the data (nan_ohlcv), and the remainder are technical analysis features.
 
 Technical analysis features were engineered with the Technical Analysis Library; they fall into five types:
+
 (1) Momentum indicators
+
 (2) Volume indicators
+
 (3) Volatility indicators
+
 (4) Trend indicators
+
 (5) Others indicators
 
 Documentation for the technical analysis features features is available here:

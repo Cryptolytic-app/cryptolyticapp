@@ -48,7 +48,17 @@ Python, AWS, PostgreSQL, SQL, Flask
 
 ### Predictions
 
-The Models folder contains two zip files. tr_pickles.zip contains nine pickled trade recommender models. arb_models.zip contains 21 arbitrage models. Each of the nine trade recommender models and each of the 21 arbitrage models is a RandomForestClassifier.
+The models folder contains two zip files, with a total of 30 models:
+
+tr_pickles.zip contains nine pickled trade recommender models.
+
+arb_models.zip contains 21 pickled arbitrage models.
+
+All 30 models use a RandomForestClassifier algorithm.
+
+Each trade recommender model recommends trades for a particular trading pair on a particular exchange by predicting whether the closing price will increase by enough to cover the costs of executing a trade.
+
+The arbitrage models predict arbitrage opportunities between two exchanges for a particular trading pair.  Predictions are made ten minutes in advance.  To count as an arbitrage opportunity, a price disparity between two exchanges must last for at least thirty minutes, and the disparity must be great enough to cover the costs of buying on one exchange and selling on the other.
 
 ### Features
 

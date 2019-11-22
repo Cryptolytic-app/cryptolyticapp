@@ -59,14 +59,21 @@ The Models folder contains two zip files. tr_pickles.zip contains nine pickled t
 -   Features 5
 
 ### Data Sources
-🚫  Add to or delete souce links as needed for your project
 
+Documentation for Cryptowatch API OHLCV Data:
+[https://developer.cryptowat.ch/reference/rest-api-markets#market-ohlc-candlesticks](https://developer.cryptowat.ch/reference/rest-api-markets#market-ohlc-candlesticks)
 
--   [Source 1] (🚫add link to python notebook here)
--   [Source 2] (🚫add link to python notebook here)
--   [Source 3] (🚫add link to python notebook here)
--   [Source 4] (🚫add link to python notebook here)
--   [Source 5] (🚫add link to python notebook here)
+Documentation for Bitfinex API OHLCV Data:
+[https://docs.bitfinex.com/reference#rest-public-candles]
+(https://docs.bitfinex.com/reference#rest-public-candles)
+
+Documentation for Coinbase Pro API OHLCV Data:
+[https://docs.pro.coinbase.com/?r=1#get-historic-rates]
+(https://docs.pro.coinbase.com/?r=1#get-historic-rates)
+
+Documentation for HitBTC OHLCV Data:
+[https://api.hitbtc.com/#candles]
+(https://api.hitbtc.com/#candles)
 
 ### Python Notebooks
 

@@ -95,7 +95,7 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 ### Python Notebooks
 
-[Notebook Folder](https://github.com/Lambda-School-Labs/cryptolytic-ds/tree/master/finalized_notebooks
+[Notebook Folder](https://github.com/Lambda-School-Labs/cryptolytic-ds/tree/master/finalized_notebooks)
 
 
 ## How to connect to the Cryptolytic API

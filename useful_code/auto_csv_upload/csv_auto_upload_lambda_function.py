@@ -177,7 +177,7 @@ def upload_historical_data(filename):
             csv_buffer = StringIO()
             df.to_csv(csv_buffer)
 
-            # Upload csv to a S3 Busket in the correct folder
+            # Upload csv to the S3 Bucket in the correct folder
             s3_resource.Object('your-bucket-name', ("{ohlcv1}/{ohlcv2}/{name}_{t}.csv").format(
             ohlcv1=c[0],ohlcv2=c[1], name=name, t=t)).put(Body=csv_buffer.getvalue())
             
@@ -212,14 +212,14 @@ def upload_ml_data(filename):
                 c = [c[0][0], c[1][1]]
                 n = n1
 
-            # retrieve historical data function
+            # retrieve ML data function
             df = retrieve_data(name, s, 'ml')
 
             # create df to csv in memory
             csv_buffer = StringIO()
             df.to_csv(csv_buffer)
 
-            # Upload csv to a S3 Busket in the correct folder
+            # Upload csv to the S3 Bucket in the correct folder
             s3_resource.Object('your-bucket-name', ("{ohlcv1}/{ohlcv2}/V{n}/{name}_{t}.csv").format(
             ohlcv1=c[0],ohlcv2=c[1], name=name, t=t, n=n)).put(Body=csv_buffer.getvalue())
             

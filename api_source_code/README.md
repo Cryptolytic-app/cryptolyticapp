@@ -1,5 +1,5 @@
 # Flask App Documentation
-Flask app allows user to request crypto prediction data 
+Flask app allows user to request crypto prediction data. Flask App deployed on AWS Elastic Beanstalk.
 
 The zip file includes:
 

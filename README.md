@@ -73,13 +73,13 @@ Technical analysis features were engineered with the Technical Analysis Library;
 
 We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and HitBTC APIs. Documentation for obtaining that data is listed below:
 
-[Documentation for Cryptowatch API OHLCV Data](https://developer.cryptowat.ch/reference/rest-api-markets#market-ohlc-candlesticks)
+[Cryptowatch API OHLCV Data Documentation](https://developer.cryptowat.ch/reference/rest-api-markets#market-ohlc-candlesticks)
 
-[Documentation for Bitfinex API OHLCV Data](https://docs.bitfinex.com/reference#rest-public-candles)
+[Bitfinex API OHLCV Data Documentation](https://docs.bitfinex.com/reference#rest-public-candles)
 
-[Documentation for Coinbase Pro API OHLCV Data](https://docs.pro.coinbase.com/?r=1#get-historic-rates)
+[Coinbase Pro API OHLCV Data Documentation](https://docs.pro.coinbase.com/?r=1#get-historic-rates)
 
-[Documentation for HitBTC OHLCV Data](https://api.hitbtc.com/#candles)
+[HitBTC OHLCV Data Documentation](https://api.hitbtc.com/#candles)
 
 ### Python Notebooks
 

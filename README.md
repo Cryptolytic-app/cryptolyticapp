@@ -26,7 +26,6 @@ You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/).
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b5c4db1c-b10d-42c3-b157-3746edd9e81d/deploy-status)](netlify link goes in these parenthesis)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-🚫 more info on using badges [here](https://github.com/badges/shields)
 
 ## Project Overview
 
@@ -113,10 +112,6 @@ Returns: ``` {"results":"{
 'prediction': 'result'}
 ]} ```
 
-
-### How to connect to the data API
-
-🚫 List directions on how to connect to the API here
 
 ## Contributing
 

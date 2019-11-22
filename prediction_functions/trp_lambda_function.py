@@ -89,7 +89,8 @@ def retrieve_data(cursor, table_name, schema):
 
 
 def fill_nan(df):
-    """Iterates through a dataframe and fills NaNs with appropriate open, high, low, close values."""
+    """Iterates through a dataframe and fills NaNs with appropriate open,
+        high, low, close values."""
 
     # Forward fill close column.
     df['close'] = df['close'].ffill()
@@ -203,9 +204,11 @@ def prediction_to_database(table_names):
 
     # create connection to database
     conn, cursor = create_conn(credentials)
+    'connected to db'
 
-    # # cnnect to S3 bucket
+    # # connect to S3 bucket
     # s3 = boto3.resource('s3')
+    print('connected to S3')
 
     # # connect to S3 bucket locally to test
     # # make sure the bucket has public access
@@ -282,10 +285,20 @@ def prediction_to_database(table_names):
             else:
                 pred = 'Down'
 
+
+            # TODO: return period in the result below
+            # This needs to be done because each model has a different period for prediction
+            # That was a change made after this function was written
+            # Steps:
+            # 1- database table has to be changed so that it has a period column
+            # 2- add period in the result list below
+            # 3- modify the flask app so its not returning period from there
+
             # creating the output result of our prediction
             result = [str(prediction_time), str(dt.datetime.utcnow()), exchange, trading_pair, pred]
             print(result)
 
+            # insert into db
             insert_query = """INSERT INTO prediction.trp
                               (p_time, c_time, exchange, trading_pair, prediction)
                               VALUES (%s, %s, %s, %s, %s)"""

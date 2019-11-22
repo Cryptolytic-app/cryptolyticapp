@@ -95,13 +95,8 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 ### Python Notebooks
 
-🚫  Add to or delete python notebook links as needed for your project
+[Notebook Folder](https://github.com/Lambda-School-Labs/cryptolytic-ds/tree/master/finalized_notebooks
 
-[Python Notebook 1](🚫add link to python notebook here)
-
-[Python Notebook 2](🚫add link to python notebook here)
-
-[Python Notebook 3](🚫add link to python notebook here)
 
 ## How to connect to the Cryptolytic API
  http://www.cryptolyticapp.com/

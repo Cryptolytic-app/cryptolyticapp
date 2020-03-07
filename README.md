@@ -1,6 +1,7 @@
 # Cryptolytic
 
-You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/).
+You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/). 
+
 
 ## Contributers
 ### Team Lead
@@ -39,7 +40,7 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 
 ### Tech Stack
 
-Python, AWS, PostgreSQL, SQL, Flask
+Python, AWS, PostgreSQL, SQL, Flask 
 
 ### Predictions
 

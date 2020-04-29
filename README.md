@@ -1,7 +1,13 @@
 # Cryptolytic
 
-You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/). 
+## Project Overview
+Cryptolytic is a platform for beginners tinkering with cryptocurrency to the seasoned trader. It provides you with recommendations on when to buy and sell based on technical indicators and assesses the markets to predict arbitrage opportunities before they even happen.
 
+This repo is a continuation from our old [repo](https://github.com/Cryptolytic-app/cryptolytic)
+
+[Application Website!](http://www.cryptolyticapp.com/)
+
+[Watch our demo video here!](https://youtu.be/ikKwhEgnNgw)
 
 ## Contributers
 ### Team Lead
@@ -20,27 +26,26 @@ You can find the project at [Cryptolytic](http://www.cryptolyticapp.com/).
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/alfredo-quintana-98248a76/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/elizabethts) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/marvin-davila/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/nathan-van-wyck-48586718a/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/taylorbickell/) |
 
 
-
-
-
-
-## Project Overview
-
-
-[Trello Board](https://trello.com/invite/b/HY6gCjh2/3f8eb169fd2f1e2415abf535c20accb3/labs17-cryptolytic)
-
-[Product Canvas](https://www.notion.so/e563b27ab8e94ce2a3f7b536fc365715?v=3781e3eb9e72447f9262ebacd1e21fa9)
-
-
-Cryptolytic is a platform for beginners tinkering with cryptocurrency to the seasoned trader. It provides you with recommendations on when to buy and sell based on technical indicators and assesses the markets to predict arbitrage opportunities before they even happen.
-
-
 ### Figma Prototype 
-<img src="https://github.com/alqu7095/Cryptolytic_README/blob/master/cryptolytic_thumbnail.png?raw=true" width = "500" />
+<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_thumbnail.png?raw=true" width = "1000" />
+
+### Application Architechture
+<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic-architecture.png?raw=true" width = "1000" />
+
+### How it Works
+Gather the historical data from each exchange’s API into a database for all of our supported exchanges and trading pairs and implement lambda functions in cloud9 to collect live data from the cryptowat.ch API in the respective tables. This allows us to have the most up to date data in our databases for predictions.
+
+Random forest classifier models were trained on that dataset, stored in S3 buckets, and more Lambda functions were used to load those models and make predictions on the live data every 3 minutes. Those predictions were then inserted into the database in a new table that stored all of the predictions.
+
+The Flask app retrieves the most recent predictions from the database and can return them to a user or be available for a backend team to use via API. The API was deployed on Elastic Beanstalk.
+
+Overall we created a data pipeline and a backend that makes use of 30 different models to generate and store predictions on a recurring basis, which can then be accessed via API endpoints.
+
+### Product Canvas
+[Notion Link](https://www.notion.so/e563b27ab8e94ce2a3f7b536fc365715?v=3781e3eb9e72447f9262ebacd1e21fa9)
 
 ### Tech Stack
-
-Python, AWS, PostgreSQL, SQL, Flask 
+Python, SQL, Flask, AWS (Elastic Beanstalk, RDS, Lambda Functions, Cloud9, KMS, Sagemaker), PostgreSQL
 
 ### Predictions
 
@@ -92,11 +97,11 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 ### Python Notebooks
 
-[Notebook Folder](https://github.com/Lambda-School-Labs/cryptolytic-ds/tree/master/finalized_notebooks)
+[Notebook Folder](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/finalized_notebooks)
 
 
 ## How to connect to the Cryptolytic API
- http://www.cryptolyticapp.com/
+ http://www.cryptolyticapp.com/ (running on AWS but models outdated!)
 
 ### Trade API [/trade](http://www.cryptolyticapp.com/trade)
 
@@ -109,7 +114,8 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 'prediction': 'result'}], }"} ```
   
 ### Arbitrage API [/arbitrage](http://www.cryptolyticapp.com/arbitrage)
-  
+Note: Unavailable between 7pm - 5am PST  
+
 Method: ["GET"]
 
 Returns: ``` {"results":"{
@@ -154,10 +160,3 @@ Remember that this project is licensed under the MIT license, and by submitting 
 ### Attribution
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Backend Documentation](_link to your backend readme here_) for details on the backend of our project.
-
-See [Front End Documentation](_link to your front end readme here_) for details on the front end of our project.
-

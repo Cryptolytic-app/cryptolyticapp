@@ -68,7 +68,7 @@ dependencies:
   - zeromq=4.3.1=h0a44026_3
   - zlib=1.2.11=h1de35cc_3
   - pip:
-    - ta==0.5.20
+    - ta==0.4.7
 prefix: /Applications/anaconda3/envs/cryptolytic
 prefix: /Applications/anaconda3/envs/cryptolytic-env
 

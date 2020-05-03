@@ -9,4 +9,6 @@ modeling/data/*/*.csv
 modeling/*.csv
 sagemaker/data/*/*.csv
 
+.csv
+
 

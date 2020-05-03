@@ -1,0 +1,14 @@
+# DS_Store
+.DS_Store
+
+.ipynb_checkpoints
+
+
+# csv data
+modeling/data/*/*.csv
+modeling/*.csv
+sagemaker/data/*/*.csv
+
+.csv
+
+

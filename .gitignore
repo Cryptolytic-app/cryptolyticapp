@@ -13,5 +13,5 @@ sagemaker/data/*/*.csv
 
 # models
 *.pkl
-*/*.pkl
-*/*/*.pkl
+modeling/models/*.pkl
+modeling/models/old/*.pkl

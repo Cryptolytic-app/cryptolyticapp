@@ -12,4 +12,4 @@ sagemaker/data/*/*.csv
 
 
 # models
-modeling/models/
+.pkl

@@ -3,6 +3,8 @@
 
 .ipynb_checkpoints
 
+__pycache__
+
 
 # csv data
 modeling/data/*/*.csv

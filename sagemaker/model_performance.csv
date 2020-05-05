@@ -1,0 +1,15 @@
+model_id,csv_name,model_label,params,accuracy,precision,recall,f1,pct_profitMean,pct_profit_median,correct_arb_preds
+cbpro_bitfinex_ltc_usd_rf,cbpro_bitfinex_ltc_usd,rf,{},0.9968465139196846,0.9974175056436668,0.8698721599116789,0.9179981488918528,3.09,3.8,6902.0
+gemini_cbpro_ltc_btc_rf,gemini_cbpro_ltc_btc,rf,{},0.9878824969400244,0.9954115684093436,0.939824120603015,0.9661352322499172,0.57,0.54,978.0
+cbpro_bitfinex_ltc_usd_auto_15_50,cbpro_bitfinex_ltc_usd,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9955982590128932,0.9959834729739298,0.7880018892958169,0.8437901840713339,3.15,3.87,6797.0
+gemini_cbpro_ltc_btc_auto_15_50,gemini_cbpro_ltc_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9827417380660954,0.9935029029582526,0.9120184254606366,0.9496016100189016,0.57,0.55,936.0
+kraken_bitfinex_ltc_btc_auto_15_50,kraken_bitfinex_ltc_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9971910112359552,0.3323970037453184,0.3333333333333333,0.3328645100796999,,,0.0
+cbpro_bitfinex_eth_usd_auto_15_50,cbpro_bitfinex_eth_usd,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9818780387435032,0.9914003458557188,0.7146832864218866,0.7683996163001469,2.52,1.46,10344.0
+cbpro_hitbtc_bch_btc_auto_15_50,cbpro_hitbtc_bch_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9986593017643588,0.9993280292441672,0.8214285714285714,0.8909681365240079,11.48,12.32,45.0
+bitfinex_cbpro_btc_usd_auto_15_50,bitfinex_cbpro_btc_usd,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9929127754604852,0.9964027559542432,0.7613543763221515,0.8144835567321556,2.16,2.0,27044.0
+cbpro_bitfinex_bch_btc_auto_15_50,cbpro_bitfinex_bch_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9977251800899096,0.6659062516973548,0.5303030303030303,0.5805717392993087,9.95,11.44,52.0
+cbpro_bitfinex_xrp_usd_auto_15_50,cbpro_bitfinex_xrp_usd,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9987700822507496,0.3329233607502498,0.3333333333333333,0.3331282209060841,,,0.0
+kraken_hitbtc_ltc_btc_auto_15_50,kraken_hitbtc_ltc_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.9983948635634028,0.33279828785446763,0.3333333333333333,0.3330655957161981,,,0.0
+cbpro_hitbtc_dash_btc_auto_15_50,cbpro_hitbtc_dash_btc,rf_hyper,"{'max_depth': 15, 'max_features': 'auto', 'n_estimators': 50}",0.0004024144869215292,0.00020120724346076456,0.5,0.00040225261464199515,-0.4,-0.42,1.0
+cbpro_bitfinex_ltc_usd_lr,cbpro_bitfinex_ltc_usd,lr,{},0.10948509485094851,0.14760306536065804,0.33328952147207364,0.06579374276658811,0.06,-0.27,6665.0
+gemini_cbpro_ltc_btc_lr,gemini_cbpro_ltc_btc,lr,{},0.0587515299877601,0.019583843329253368,0.3333333333333333,0.03699421965317919,-0.22,-0.3,480.0

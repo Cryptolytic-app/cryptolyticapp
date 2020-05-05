@@ -1,0 +1,169 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}API{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h1>API Documentation</h1>
+            <br><br>
+            <h2>Introduction</h2>
+                <h3>Welcome to the Cryptolytic API documentation. The API’s are split into two categories: trading and arbitrage, which are both public.</h3>
+            <hr>
+            <br>
+            <h2>API</h2>
+                <p>The Cryptolytic public API endpints can be accessed at the URL:
+                    cryptolyticapp.com</p>
+            <br><hr>
+            <h2>Requests</h2>
+                <h5>All requests and responses are json content type and follow typical HTTP response status codes for success and failure.</h5>
+                <br>
+                <h3>Success</h3>
+                    <p>A successful response is indicated by HTTP status code 200 and may contain an optional body.
+                        If the response has a body it will be documented under each resource below.</p>
+                <br>
+                <h3>Errors</h3>
+                    <p>Unless otherwise stated, errors to bad requests will respond with HTTP 4xx or status codes.</p>
+                    <table>
+                  <tr>
+                    <th>Status Code</th>
+                    <th>Error</th>
+                  </tr>
+                  <tr>
+                    <td>400</td>
+                    <td>Bad Request – Invalid request format</td>
+                  </tr>
+                  <tr>
+                    <td>401</td>
+                    <td>Unauthorized – Invalid API Key</td>
+                  </tr>
+                  <tr>
+                    <td>402</td>
+                    <td>Forbidden – You do not have access to the requested resource</td>
+                  </tr>
+                  <tr>
+                    <td>403</td>
+                    <td>Not Found</td>
+                  </tr>
+                  <tr>
+                    <td>500</td>
+                    <td>Internal Server Error – We had a problem with our server</td>
+                  </tr>
+                </table>
+
+            <br><hr>
+            <h2>Types</h2>
+                <h5>Timestamps</h5>
+                    <p>Unless otherwise specified, all timestamps from API are returned in PST to the second. Make sure
+                        you can parse the following PST format. Most modern languages and libraries will handle this without issues.</p>
+            <br><hr>
+            <h2>Rate Limits</h2>
+                <h5>Trading API</h5>
+                    <p>We throttle public endpoints by IP: 10 requests per minute. When a rate limit is exceeded, a
+                        status of 429 Too Many Requests will be returned.</p>
+                <h5>Arbitrage API</h5>
+                    <p>We throttle public endpoints by IP: 30 requests per minute. When a rate limit is exceeded, a
+                        status of 429 Too Many Requests will be returned.</p>
+
+            <br><hr>
+            <h2>Trade API</h2>
+                <p>Information about the latest trade opportunities. </p>
+                <h5>HTTP Request</h5>
+                    <p>GET /trade</p>
+                    <p><a href="http://www.cryptolyticapp.com/trade">http://www.cryptolyticapp.com/trade</a></p>
+                <table>
+                  <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>results</td>
+                    <td>Dictionary of trade results</td>
+                  </tr>
+                  <tr>
+                    <td>exchange</td>
+                    <td>Crypto Market Exchange</td>
+                  </tr>
+                  <tr>
+                    <td>trading_pair</td>
+                    <td>Cryptovurrency Trading Pair</td>
+                  </tr>
+                  <tr>
+                    <td>p_time</td>
+                    <td>Prediction Start Time (PST)</td>
+                  </tr>
+                  <tr>
+                    <td>period</td>
+                    <td>Prediction Time Window</td>
+                  </tr>
+                  <tr>
+                    <td>prediction</td>
+                    <td>Prediction for Price Direction</td>
+                  </tr>
+                </table>
+
+            <br><hr>
+                <h2>Arbitrage API</h2>
+                    <p>Information about the latest arbitrage opportunities. Unavailable between 7pm - 5am PST </p>
+                    <h5>HTTP Request</h5>
+                        <p>GET /arbitrage</p>
+                        <p><a href="http://www.cryptolyticapp.com/arbitrage">http://www.cryptolyticapp.com/arbitrage</a></p>
+                <table>
+                  <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                  </tr>
+                  <tr>
+                    <td>results</td>
+                    <td>Dictionary of arbitrage results</td>
+                  </tr>
+                  <tr>
+                    <td>exchange_1</td>
+                    <td>First Crypto Market Exchange</td>
+                  </tr>
+                  <tr>
+                    <td>exchange_2</td>
+                    <td>Second Crypto Market Exchange</td>
+                  </tr>
+                  <tr>
+                    <td>trading_pair</td>
+                    <td>Cryptocurrency Trading Pair</td>
+                  </tr>
+                  <tr>
+                    <td>p_time</td>
+                    <td>Prediction Start Time (PST)</td>
+                  </tr>
+                  <tr>
+                    <td>prediction</td>
+                    <td>Arbitrage Prediction Opportunity</td>
+                  </tr>
+                </table>
+
+            <br><br>
+        </div>
+    </div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+                <style>
+                table {
+                  border-collapse: collapse;
+                  border-spacing: 0;
+                  width: 100%;
+                  border: 1px solid #ddd;
+                }
+
+                th, td {
+                  text-align: left;
+                  padding: 16px;
+                }
+
+                tr:nth-child(even) {
+                  background-color: #f2f2f2;
+                }
+                </style>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h1>Welcome to Cryptolytic!</h1>
+            <hr><br>
+            <p>Cryptolytic is a machine learning application that helps you make smarter decisions when trading.
+                It generates advance predictions of arbitrage so traders can have time to act on them and also predicts
+                when to buy and sell crypto based on technical indicators.</p>
+            <br>
+            <iframe width="760" height="415" src="https://www.youtube.com/embed/ikKwhEgnNgw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br>
+            <img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_thumb.png?raw=true" alt="crypto" style="width:60%;">
+            <br><br><hr>
+            <h2>Application Architecture</h2><br>
+            <img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic-architecture.png?raw=true" alt="crypto" style="width:90%;">
+            <br><hr>
+
+        </div>
+    </div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+iframe {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
+{% endblock %}

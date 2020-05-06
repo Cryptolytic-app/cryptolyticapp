@@ -1,5 +1,0 @@
-model_id,csv_name,model_label,params,accuracy,precision,recall,f1,pct_profitMean,pct_profit_median,correct_arb_preds
-gemini_cbpro_ltc_btc_rf,gemini_cbpro_ltc_btc,rf,{},0.9878824969400245,0.9880492979415453,0.9878824969400245,0.9876238814616273,0.57,0.54,978.0
-kraken_bitfinex_ltc_btc_rf,kraken_bitfinex_ltc_btc,rf,{},0.9971910112359551,0.9943899128897866,0.9971910112359551,0.9957884922328102,,,0.0
-cbpro_bitfinex_eth_usd_rf,cbpro_bitfinex_eth_usd,rf,{},0.9834936214963954,0.9837252715692284,0.9834936214963954,0.9807899496117091,2.5,1.46,10451.0
-cbpro_hitbtc_bch_btc_rf,cbpro_hitbtc_bch_btc,rf,{},0.9981230224701024,0.9981265521398609,0.9981230224701024,0.997811076129703,12.11,12.89,35.0

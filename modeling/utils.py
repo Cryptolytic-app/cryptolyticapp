@@ -87,26 +87,14 @@ sp = '      '
 
 def tbl_stats_headings():
     """Prints the headings for the stats table"""
-    print(sp*2, line*9, '\n', 
+    print(sp*2, line*7, '\n', 
           sp*3, 'Accuracy Score', 
 #           sp, 'True Positive Rate',
 #           sp, 'False Postitive Rate', 
           sp, 'Precision',
           sp, 'Recall',
           sp, 'F1', '\n',
-          sp*2, line*9, '\n', 
-    )
-    
-def tbl_stats_row(test_accuracy, precision, recall, f1):
-    """Prints the row of model stats after each param set fold"""
-    print(
-        sp*4, f'{test_accuracy:.4f}',     # accuracy
-#         sp*3, f'{tpr:.4f}',           # roc auc
-#         sp*3, f'{fpr:.4f}',      # p/r auc
-        sp*2, f'{precision:.4f}',      # p/r auc
-        sp*1, f'{recall:.4f}',      # p/r auc
-        sp*1, f'{f1:.4f}',     # p/r auc
-        sp*2, line*9
+          sp*2, line*7, '\n', 
     )
 
 def print_model_name(name, i, arb_data_paths):
@@ -238,97 +226,24 @@ def create_pg(param_grid):
     if not param_grid:
         pg_list = [param_grid]
         print('1 no params')
+    # checks if the params in param_grid are iterable
+    # and if not, it turns them into iterables to be used 
+    # with ParameterGrid()
     else:
         for key in param_grid:
-            if isinstance(param_grid[key], list):
+            if isinstance(param_grid[key], list):         
+                
+                pg_list = list(ParameterGrid(param_grid))
                 print('2 iterable params')
-                continue  
+                
             else:
-                pg_list = param_grid
+#                 params[key] = [params[key]]
+                pg_list = [param_grid]
                 print('3 reg params')
-                break
-            pg_list = [ParameterGrid(param_grid)]
 
     print('pg_list', pg_list)
     return pg_list
 
-
-############################################################    
-#                Correct Arb Predictions
-############################################################
-def confusion_feat(y_test, y_preds):
-    """
-    
-    """
-    
-    # labels for confusion matrix
-    unique_y_test = y_test.unique().tolist()
-    unique_y_preds = list(set(y_preds))
-    labels = list(set(unique_y_test + unique_y_preds))
-    labels.sort()
-    columns = [f'Predicted {label}' for label in labels]
-    index = [f'Actual {label}' for label in labels]
-
-    # create confusion matrix
-    conf_mat = pd.DataFrame(confusion_matrix(y_test, y_preds),
-                             columns=columns, index=index)
-    print(conf_mat, '\n')
-    print(classification_report(y_test, y_preds, digits=3))
-
-    if 'Predicted 1' in conf_mat.columns and 'Predicted -1' in conf_mat.columns:
-        # % incorrect predictions for 0, 1, -1
-        pct_wrong_0 = (conf_mat['Predicted 0'][0] + 
-                       conf_mat['Predicted 0'][2])/conf_mat['Predicted 0'].sum()
-        pct_wrong_1 = (conf_mat['Predicted 1'][0] + 
-                       conf_mat['Predicted 1'][1])/conf_mat['Predicted 1'].sum()
-        pct_wrong_neg1 = (conf_mat['Predicted -1'][1] + 
-                           conf_mat['Predicted -1'][2])/conf_mat['Predicted -1'].sum()
-        # total number correct arbitrage preds (-1)
-        correct_arb_neg1 = conf_mat['Predicted -1'][0]
-        # total number correct arbitrage preds (1)
-        correct_arb_1 = conf_mat['Predicted 1'][2]
-        # total number correct arbitrage preds (-1) + (1)
-        correct_arb = correct_arb_neg1 + correct_arb_1
-        # total number correct no arbitrage preds (0)
-        correct_arb_0 = conf_mat['Predicted 0'][1]
-    # confusion matrix has 0, 1 predictions
-    elif 'Predicted 1' in conf_mat.columns:
-        pct_wrong_0 = conf_mat['Predicted 0'][1] / conf_mat['Predicted 0'].sum()
-        pct_wrong_1 = conf_mat['Predicted 1'][0] / conf_mat['Predicted 1'].sum()
-        pct_wrong_neg1 = np.nan
-        # total number correct arbitrage preds (-1)
-        correct_arb_neg1 = 0
-        # total number correct arbitrage preds (1)
-        correct_arb_1 = conf_mat['Predicted 1'][1]
-        # total number correct arbitrage preds (-1) + (1)
-        correct_arb = correct_arb_neg1 + correct_arb_1
-        # total number correct no arbitrage preds (0)
-        correct_arb_0 = conf_mat['Predicted 0'][0]
-    # confusion matrix has -1, 0 predictions
-    elif 'Predicted -1' in conf_mat.columns:
-        pct_wrong_0 = conf_mat['Predicted 0'][0] / conf_mat['Predicted 0'].sum()
-        pct_wrong_1 = np.nan
-        pct_wrong_neg1 = conf_mat['Predicted -1'][1] / conf_mat['Predicted -1'].sum()
-        # total number correct arbitrage preds (-1)
-        correct_arb_neg1 = conf_mat['Predicted -1'][0]
-        # total number correct arbitrage preds (1)
-        correct_arb_1 = 0
-        # total number correct arbitrage preds (-1) + (1)
-        correct_arb = correct_arb_neg1 + correct_arb_1
-        # total number correct no arbitrage preds (0)
-        correct_arb_0 = conf_mat['Predicted 0'][1]
-    # confusion matrix has only 0
-    else:
-        pct_wrong_0 = 0
-        pct_wrong_1 = 0
-        pct_wrong_neg1 = 0
-        correct_arb = 0
-        correct_arb_neg1 = 0
-        correct_arb_1 = 0
-        correct_arb_0 = 0
-    
-    return (pct_wrong_0, pct_wrong_1, pct_wrong_neg1, correct_arb, 
-            correct_arb_neg1, correct_arb_1, correct_arb_0)
 
 ############################################################    
 #                   Model Naming
@@ -390,13 +305,95 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
     
     accuracy = accuracy_score(y_test, y_preds)
     
-    precision = precision_score(y_test, y_preds, average='weighted')
+    # labels for confusion matrix
+    unique_y_test = y_test.unique().tolist()
+    unique_y_preds = list(set(y_preds))
+    labels = list(set(unique_y_test + unique_y_preds))
+    labels.sort()
+    columns = [f'Predicted {label}' for label in labels]
+    index = [f'Actual {label}' for label in labels]
 
-    f1 = f1_score(y_test, y_preds, average='weighted')
+    # create confusion matrix and classification report
+    conf_mat = pd.DataFrame(
+        confusion_matrix(y_test, y_preds),
+        columns=columns, index=index
+    )
+    class_report = classification_report(y_test, y_preds, digits=4, output_dict=True)
+    print(conf_mat, '\n')
+    print(classification_report(y_test, y_preds, digits=4), '\n')
+    
+    # confusion matrix has -1, 0, 1 predictions
+    if 'Predicted 1' in conf_mat.columns and 'Predicted -1' in conf_mat.columns:
+        FPR = (conf_mat['Predicted 0'][0] + 
+            conf_mat['Predicted 0'][2])/conf_mat['Predicted 0'].sum()
 
-    recall = recall_score(y_test, y_preds, average='weighted')
+        correct_arb_neg1 = conf_mat['Predicted -1'][0]
+        correct_arb_1 = conf_mat['Predicted 1'][2]
+        correct_arb = correct_arb_neg1 + correct_arb_1
+        
+        precision_neg1 = class_report['-1']['precision']
+        precision_0 = class_report['0']['precision']
+        precision_1 = class_report['1']['precision']
+        recall_neg1 = class_report['-1']['recall']
+        recall_0 = class_report['0']['recall']
+        recall_1 = class_report['1']['recall']
+        f1_neg1 = class_report['-1']['f1-score']
+        f1_0 = class_report['0']['f1-score']
+        f1_1 = class_report['1']['f1-score']
+        
+    # confusion matrix has 0, 1 predictions
+    elif 'Predicted 1' in conf_mat.columns:
+        FPR = conf_mat['Predicted 0'][1] / conf_mat['Predicted 0'].sum()
 
-    pct_wrong_0, pct_wrong_1, pct_wrong_neg1, correct_arb, correct_arb_neg1, correct_arb_1, correct_arb_0 = confusion_feat(y_test, y_preds)
+        correct_arb_neg1 = 0
+        correct_arb_1 = conf_mat['Predicted 1'][1]
+        correct_arb = correct_arb_neg1 + correct_arb_1
+        
+        precision_neg1 = np.nan
+        precision_0 = class_report['0']['precision']
+        precision_1 = class_report['1']['precision']
+        recall_neg1 = np.nan
+        recall_0 = class_report['0']['recall']
+        recall_1 = class_report['1']['recall']
+        f1_neg1 = np.nan
+        f1_0 = class_report['0']['f1-score']
+        f1_1 = class_report['1']['f1-score']
+        
+    # confusion matrix has -1, 0 predictions
+    elif 'Predicted -1' in conf_mat.columns:
+        FPR = conf_mat['Predicted 0'][0] / conf_mat['Predicted 0'].sum()
+
+        correct_arb_neg1 = conf_mat['Predicted -1'][0]
+        correct_arb_1 = 0
+        correct_arb = correct_arb_neg1 + correct_arb_1
+        
+        precision_neg1 = class_report['-1']['precision']
+        precision_0 = class_report['0']['precision']
+        precision_1 = np.nan
+        recall_neg1 = class_report['-1']['recall']
+        recall_0 = class_report['0']['recall']
+        recall_1 = np.nan
+        f1_neg1 = class_report['-1']['f1-score']
+        f1_0 = class_report['0']['f1-score']
+        f1_1 = np.nan
+        
+    # confusion matrix has only 0 predictions
+    else:
+        FPR = np.nan
+        
+        correct_arb_neg1 = 0
+        correct_arb_1 = 0
+        correct_arb = 0
+        
+        precision_neg1 = np.nan
+        precision_0 = class_report['0']['precision']
+        precision_1 = np.nan
+        recall_neg1 = np.nan
+        recall_0 = class_report['0']['recall']
+        recall_1 = np.nan
+        f1_neg1 = np.nan
+        f1_0 = class_report['0']['f1-score']
+        f1_1 = np.nan
     
     eval_dict = {
         'model_id': model_id, 
@@ -404,26 +401,30 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
         'model_label': model_label,
         'params': params,  
         'accuracy': accuracy,
-        'precision': precision, 
-        'recall': recall, 
-        'f1': f1,
         'pct_profit_mean': pct_prof_mean, 
         'pct_profit_median': pct_prof_median,
-        'pct_wrong_0': pct_wrong_0, 
-        'pct_wrong_1': pct_wrong_1, 
-        'pct_wrong_neg1': pct_wrong_neg1, 
-        'correct_arb': correct_arb, 
+        'FPR': FPR, 
         'correct_arb_neg1': correct_arb_neg1, 
-        'correct_arb_1': correct_arb_1, 
-        'correct_arb_0': correct_arb_0
+        'correct_arb_1': correct_arb_1,
+        'correct_arb': correct_arb, 
+        'precision_neg1': precision_neg1, 
+        'precision_0': precision_0, 
+        'precision_1': precision_1, 
+        'recall_neg1': recall_neg1, 
+        'recall_0': recall_0, 
+        'recall_1': recall_1,
+        'f1_neg1': f1_neg1, 
+        'f1_0': f1_0, 
+        'f1_1': f1_1
     }
     
-    return eval_dict   
+    return eval_dict
 
 ############################################################    
 #                      Modeling
 ############################################################
-def create_models(arb_data_paths, model_type, features, param_grid, filename, export_preds=False, export_model=False):
+def create_models(arb_data_paths, model_type, features, param_grid, 
+                  filename, export_preds=False, export_model=False):
     """
     This function takes in a list of all the arbitrage data paths, 
     does train/test split, feature selection, trains models, 
@@ -465,12 +466,8 @@ def create_models(arb_data_paths, model_type, features, param_grid, filename, ex
     }
     
     model_label = model_name_dict[base_model_name]
-
     if param_grid:
         model_label = model_label + '_hyper'
-
-    # this is part of a check put in the code to allow the function
-    # to pick up where it previously left off in case of errors
     
     # create features and param grid
     pg_list = create_pg(param_grid)
@@ -479,35 +476,34 @@ def create_models(arb_data_paths, model_type, features, param_grid, filename, ex
         with open ('all_features.txt', 'rb') as fp:
             features = pickle.load(fp)
             print('read feat')
-#         features = ALL_FEATURES
+    
     # pick target
     target = 'target'
     
     file = Path(filename)
-    columns = ['model_id', 'csv_name', 'model_label', 'params', 'accuracy', 'precision', 
-               'recall', 'f1', 'pct_profit_mean', 'pct_profit_median', 'pct_wrong_0', 
-               'pct_wrong_1', 'pct_wrong_neg1', 'correct_arb', 'correct_arb_neg1', 
-               'correct_arb_1', 'correct_arb_0']
-        
-
+    columns = ['model_id', 'csv_name', 'model_label', 'params', 'accuracy', 
+               'pct_profit_mean', 'pct_profit_median', 'FPR', 'correct_arb_neg1',
+               'correct_arb_1', 'correct_arb', 'precision_neg1', 'precision_0', 
+               'precision_1', 'recall_neg1', 'recall_0', 'recall_1', 
+               'f1_neg1', 'f1_0', 'f1_1']
 
     if file.exists(): 
         mp_df = pd.read_csv(filename)
     else:
-#         mp_df = pd.DataFrame()
         mp_df = pd.DataFrame(columns=columns)
         
-
     # iterate through the arbitrage csvs
-    for i, file in enumerate(arb_data_paths):
+    for i, path in enumerate(arb_data_paths):
+        print(path)
+        
         # define model name
-        csv_name = file.split('/')[2].split('.')[0]
+        csv_name = path.split('/')[2].split('.')[0]
             
         # print status
         print_model_name(csv_name, i, arb_data_paths)
 
         # read csv
-        df = pd.read_csv(file, index_col=0)
+        df = pd.read_csv(path, index_col=0)
 
         # convert str closing_time to datetime
         df['closing_time'] = pd.to_datetime(df['closing_time'])
@@ -519,15 +515,12 @@ def create_models(arb_data_paths, model_type, features, param_grid, filename, ex
             and (X_test.shape[0] > 100) 
             and len(set(y_train)) > 1):
 
-
             # hyperparameter tuning
             for i, params in enumerate(pg_list): 
 
                 # define the model name and path
                 model_id, model_path = model_names(param_grid, params, csv_name, model_label)
-#                 print(model_id)
                 if mp_df[mp_df['model_id'] == model_id].empty:
-
 
                     # print status
                     print_model_params(i, params, pg_list)
@@ -543,11 +536,6 @@ def create_models(arb_data_paths, model_type, features, param_grid, filename, ex
 
                     # make predictions
                     y_preds = model.predict(X_test)
-
-                    # https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html
-                    # 'weighted':
-                    #Calculate metrics for each label, and find their average weighted by support (the number of true instances for each label). 
-                    #This alters ‘macro’ to account for label imbalance; it can result in an F-score that is not between precision and recall.
 
                     # evaluate model performance and return result in a dictionary  
                     eval_dict = model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
@@ -579,7 +567,7 @@ def create_models(arb_data_paths, model_type, features, param_grid, filename, ex
 
         # dataset is too small
         else:
-            print(f'{sp*2}ERROR: dataset too small for {csv_name}')
+            print(f'{sp*2} ERROR: dataset too small for {csv_name}')
 
             
         # export df, end of CSV cycle

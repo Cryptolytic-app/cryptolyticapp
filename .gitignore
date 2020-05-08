@@ -8,9 +8,7 @@ __pycache__/
 
 # csv data
 modeling/data/*/*.csv
-modeling/*.csv
 sagemaker/data/*/*.csv
-*.csv
 
 
 # models

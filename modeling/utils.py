@@ -292,7 +292,7 @@ def ttsplit(df, features, target):
     # printing shapes to track progress
     print(sp*2, 'train and test shape: ', train.shape, test.shape)
     
-    return X_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test, test
 
 ############################################################    
 #                 Evaluation Metrics

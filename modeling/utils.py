@@ -30,54 +30,6 @@ from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_sc
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import ParameterGrid
 
-############################################################    
-#                     Variables
-############################################################
-# ALL_FEATURES = ['close_exchange_1','base_volume_exchange_1', 
-#                     'nan_ohlcv_exchange_1','volume_adi_exchange_1', 'volume_obv_exchange_1',
-#                     'volume_cmf_exchange_1', 'volume_fi_exchange_1','volume_em_exchange_1', 
-#                     'volume_vpt_exchange_1','volume_nvi_exchange_1', 'volatility_atr_exchange_1',
-#                     'volatility_bbhi_exchange_1','volatility_bbli_exchange_1', 
-#                     'volatility_kchi_exchange_1', 'volatility_kcli_exchange_1',
-#                     'volatility_dchi_exchange_1','volatility_dcli_exchange_1',
-#                     'trend_macd_signal_exchange_1', 'trend_macd_diff_exchange_1', 
-#                     'trend_adx_exchange_1', 'trend_adx_pos_exchange_1', 
-#                     'trend_adx_neg_exchange_1', 'trend_vortex_ind_pos_exchange_1', 
-#                     'trend_vortex_ind_neg_exchange_1', 'trend_vortex_diff_exchange_1', 
-#                     'trend_trix_exchange_1', 'trend_mass_index_exchange_1', 
-#                     'trend_cci_exchange_1', 'trend_dpo_exchange_1', 'trend_kst_sig_exchange_1',
-#                     'trend_kst_diff_exchange_1', 'trend_aroon_up_exchange_1',
-#                     'trend_aroon_down_exchange_1', 'trend_aroon_ind_exchange_1',
-#                     'momentum_rsi_exchange_1', 'momentum_mfi_exchange_1',
-#                     'momentum_tsi_exchange_1', 'momentum_uo_exchange_1',
-#                     'momentum_stoch_signal_exchange_1', 'momentum_wr_exchange_1', 
-#                     'momentum_ao_exchange_1', 'others_dr_exchange_1', 'close_exchange_2',
-#                     'base_volume_exchange_2', 'nan_ohlcv_exchange_2',
-#                     'volume_adi_exchange_2', 'volume_obv_exchange_2',
-#                     'volume_cmf_exchange_2', 'volume_fi_exchange_2',
-#                     'volume_em_exchange_2', 'volume_vpt_exchange_2',
-#                     'volume_nvi_exchange_2', 'volatility_atr_exchange_2',
-#                     'volatility_bbhi_exchange_2', 'volatility_bbli_exchange_2',
-#                     'volatility_kchi_exchange_2', 'volatility_kcli_exchange_2',
-#                     'volatility_dchi_exchange_2', 'volatility_dcli_exchange_2',
-#                     'trend_macd_signal_exchange_2',
-#                     'trend_macd_diff_exchange_2', 'trend_adx_exchange_2',
-#                     'trend_adx_pos_exchange_2', 'trend_adx_neg_exchange_2',
-#                     'trend_vortex_ind_pos_exchange_2',
-#                     'trend_vortex_ind_neg_exchange_2',
-#                     'trend_vortex_diff_exchange_2', 'trend_trix_exchange_2',
-#                     'trend_mass_index_exchange_2', 'trend_cci_exchange_2',
-#                     'trend_dpo_exchange_2', 'trend_kst_sig_exchange_2',
-#                     'trend_kst_diff_exchange_2', 'trend_aroon_up_exchange_2',
-#                     'trend_aroon_down_exchange_2',
-#                     'trend_aroon_ind_exchange_2',
-#                     'momentum_rsi_exchange_2', 'momentum_mfi_exchange_2',
-#                     'momentum_tsi_exchange_2', 'momentum_uo_exchange_2',
-#                     'momentum_stoch_signal_exchange_2',
-#                     'momentum_wr_exchange_2', 'momentum_ao_exchange_2',
-#                     'others_dr_exchange_2', 'year', 'month', 'day',
-#                     'higher_closing_price', 'pct_higher', 
-#                     'arbitrage_opportunity', 'window_length']
 
 ############################################################    
 #                 Print Statements
@@ -85,23 +37,11 @@ from sklearn.model_selection import ParameterGrid
 line = '-------------'
 sp = '      '
 
-def tbl_stats_headings():
-    """Prints the headings for the stats table"""
-    print(sp*2, line*7, '\n', 
-          sp*3, 'Accuracy Score', 
-#           sp, 'True Positive Rate',
-#           sp, 'False Postitive Rate', 
-          sp, 'Precision',
-          sp, 'Recall',
-          sp, 'F1', '\n',
-          sp*2, line*7, '\n', 
-    )
-
-def print_model_name(name, i, arb_data_paths):
+def print_model_name(name, i, train_data_paths):
     print(
-    '\n\n', line*9, '\n\n', 
-    f'Model {i+1}/{len(arb_data_paths)}: {name}', '\n', 
-    line*9
+    '\n\n', line*8, '\n\n', 
+    f'Model {i+1}/{len(train_data_paths)}: {name}', '\n', 
+    line*8
     )
 
 def print_model_params(i, params, pg_list):  
@@ -157,7 +97,6 @@ def get_close_shift(df, interval=interval):
 def get_profit(df):
     """
     Calculates the profit of an arbitrage trade.
-    
     Returns df with new profit feature.
     """
     
@@ -183,9 +122,10 @@ def get_profit(df):
     else:
         return 0 # no arbitrage
 
+def profit(X_test, y_preds):
+    """
     
-    
-def profit(X_test, y_preds):  
+    """
     # creating dataframe from test set to calculate profitability
     test_with_preds = X_test.copy()
 
@@ -222,26 +162,17 @@ def create_pg(param_grid):
     Selects the correct features and parameters
     for each model
     """
-    
     if not param_grid:
         pg_list = [param_grid]
-        print('1 no params')
     # checks if the params in param_grid are iterable
     # and if not, it turns them into iterables to be used 
     # with ParameterGrid()
     else:
         for key in param_grid:
             if isinstance(param_grid[key], list):         
-                
                 pg_list = list(ParameterGrid(param_grid))
-                print('2 iterable params')
-                
             else:
-#                 params[key] = [params[key]]
                 pg_list = [param_grid]
-                print('3 reg params')
-
-    print('pg_list', pg_list)
     return pg_list
 
 
@@ -249,7 +180,9 @@ def create_pg(param_grid):
 #                   Model Naming
 ############################################################
 def model_names(param_grid, params, csv_name, model_label):
-    # define model name
+    """
+    
+    """
     if param_grid:
         model_id = '_'.join([
             csv_name, 
@@ -261,7 +194,6 @@ def model_names(param_grid, params, csv_name, model_label):
     else:
         model_id = csv_name + '_' + model_label
 
-    # define model filename to check if it exists
     model_path = f'models/{model_id}.pkl'
     
     return model_id, model_path
@@ -271,6 +203,9 @@ def model_names(param_grid, params, csv_name, model_label):
 #                 Train/Test Split
 ############################################################
 def ttsplit(df, features, target):
+    """
+    
+    """
     
     ## tt split
     # remove 2 weeks from train datasets to create a  
@@ -297,8 +232,11 @@ def ttsplit(df, features, target):
 ############################################################    
 #                 Evaluation Metrics
 ############################################################
-def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params):
+def model_eval(X_test, y_test, y_preds, model_id, csv_name, 
+               model_label, params):
+    """
     
+    """
     pct_prof_mean, pct_prof_median = profit(X_test, y_preds)
     print(sp*2,'percent profit mean:', pct_prof_mean)
     print(sp*2, 'percent profit median:', pct_prof_median, '\n\n')
@@ -318,14 +256,22 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
         confusion_matrix(y_test, y_preds),
         columns=columns, index=index
     )
-    class_report = classification_report(y_test, y_preds, digits=4, output_dict=True)
+    class_report = classification_report(
+        y_test, 
+        y_preds, 
+        digits=4, 
+        output_dict=True
+    )
     print(conf_mat, '\n')
     print(classification_report(y_test, y_preds, digits=4), '\n')
     
     # confusion matrix has -1, 0, 1 predictions
-    if 'Predicted 1' in conf_mat.columns and 'Predicted -1' in conf_mat.columns:
-        FPR = (conf_mat['Predicted 0'][0] + 
-            conf_mat['Predicted 0'][2])/conf_mat['Predicted 0'].sum()
+    if ('Predicted 1' in conf_mat.columns 
+         and 'Predicted -1' in conf_mat.columns):
+        FPR = (
+            (conf_mat['Predicted 0'][0] + 
+            conf_mat['Predicted 0'][2])/conf_mat['Predicted 0']
+        ).sum()
 
         correct_arb_neg1 = conf_mat['Predicted -1'][0]
         correct_arb_1 = conf_mat['Predicted 1'][2]
@@ -343,7 +289,10 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
         
     # confusion matrix has 0, 1 predictions
     elif 'Predicted 1' in conf_mat.columns:
-        FPR = conf_mat['Predicted 0'][1] / conf_mat['Predicted 0'].sum()
+        FPR = (
+            conf_mat['Predicted 0'][1] / 
+            conf_mat['Predicted 0'].sum()
+        )
 
         correct_arb_neg1 = 0
         correct_arb_1 = conf_mat['Predicted 1'][1]
@@ -418,14 +367,16 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
         'f1_1': f1_1
     }
     
-    return eval_dict
+    return eval_dict   
 
 ############################################################    
 #                    Export Handler
 ############################################################
 def export_handler(model, model_id, test, y_preds, 
                    export_model=False, export_preds=False):
-
+    """
+    
+    """
     if export_model == True:  
         #save model
         pickle.dump(

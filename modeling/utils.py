@@ -1,6 +1,6 @@
 """
 This file contains all of the functions used in modeling for
-the cryptolytic project.
+the Cryptolytic project.
 """
 
 import glob
@@ -24,12 +24,10 @@ from ta import add_all_ta_features
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.metrics import precision_score, recall_score, classification_report, roc_auc_score
-from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import ParameterGrid
-
 
 ############################################################    
 #                 Print Statements
@@ -458,7 +456,6 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     if not features:
         with open ('data/all_features.txt', 'rb') as fp:
             features = pickle.load(fp)
-            print('read feat')
     
     # pick target
     target = 'target'

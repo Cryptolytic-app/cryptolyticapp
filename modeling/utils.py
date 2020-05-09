@@ -292,7 +292,7 @@ def ttsplit(df, features, target):
     # printing shapes to track progress
     print(sp*2, 'train and test shape: ', train.shape, test.shape)
     
-    return X_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test, test
 
 ############################################################    
 #                 Evaluation Metrics
@@ -421,6 +421,37 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
     return eval_dict
 
 ############################################################    
+#                    Export Handler
+############################################################
+def export_handler(model, model_id, test, y_preds, 
+                   export_model=False, export_preds=False):
+
+    if export_model == True:  
+        #save model
+        pickle.dump(
+            model, 
+            open(f'models/{model_id}.pkl', 'wb')
+        )
+
+    if export_preds == True:
+
+        predictions = pd.DataFrame(
+            columns=['closing_time', 'close_exchange_1', 
+                     'close_exchange_2', 'y_test', 'y_preds'])
+        
+        # need to use test bc X_test doesn't have closing_time
+        predictions['closing_time'] = test['closing_time']
+        predictions['close_exchange_1'] = test['close_exchange_1']
+        predictions['close_exchange_2'] = test['close_exchange_2']
+        predictions['y_test'] = test['target'].tolist()
+        predictions['y_preds'] = y_preds
+
+        predictions.to_csv(
+            f'data/arb_preds_test_data/{model_id}.csv', 
+            index=False
+        )
+
+############################################################    
 #                      Modeling
 ############################################################
 def create_models(arb_data_paths, model_type, features, param_grid, 
@@ -466,6 +497,7 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     }
     
     model_label = model_name_dict[base_model_name]
+
     if param_grid:
         model_label = model_label + '_hyper'
     
@@ -473,7 +505,7 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     pg_list = create_pg(param_grid)
     
     if not features:
-        with open ('all_features.txt', 'rb') as fp:
+        with open ('data/all_features.txt', 'rb') as fp:
             features = pickle.load(fp)
             print('read feat')
     
@@ -481,9 +513,10 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     target = 'target'
     
     file = Path(filename)
-    columns = ['model_id', 'csv_name', 'model_label', 'params', 'accuracy', 
-               'pct_profit_mean', 'pct_profit_median', 'FPR', 'correct_arb_neg1',
-               'correct_arb_1', 'correct_arb', 'precision_neg1', 'precision_0', 
+    columns = ['model_id', 'csv_name', 'model_label', 'params', 
+               'accuracy', 'pct_profit_mean', 'pct_profit_median', 
+               'FPR', 'correct_arb_neg1', 'correct_arb_1', 
+               'correct_arb', 'precision_neg1', 'precision_0', 
                'precision_1', 'recall_neg1', 'recall_0', 'recall_1', 
                'f1_neg1', 'f1_0', 'f1_1']
 
@@ -494,7 +527,6 @@ def create_models(arb_data_paths, model_type, features, param_grid,
         
     # iterate through the arbitrage csvs
     for i, path in enumerate(arb_data_paths):
-        print(path)
         
         # define model name
         csv_name = path.split('/')[2].split('.')[0]
@@ -509,7 +541,11 @@ def create_models(arb_data_paths, model_type, features, param_grid,
         df['closing_time'] = pd.to_datetime(df['closing_time'])
 
         # train/test split the dataframe
-        X_train, X_test, y_train, y_test = ttsplit(df, features, target)
+        X_train, X_test, y_train, y_test, test = ttsplit(
+            df, 
+            features, 
+            target
+        )
 
         if ((X_train.shape[0] > 1000) 
             and (X_test.shape[0] > 100) 
@@ -519,7 +555,12 @@ def create_models(arb_data_paths, model_type, features, param_grid,
             for i, params in enumerate(pg_list): 
 
                 # define the model name and path
-                model_id, model_path = model_names(param_grid, params, csv_name, model_label)
+                model_id, model_path = model_names(
+                    param_grid, 
+                    params, 
+                    csv_name, 
+                    model_label
+                )
                 if mp_df[mp_df['model_id'] == model_id].empty:
 
                     # print status
@@ -527,49 +568,44 @@ def create_models(arb_data_paths, model_type, features, param_grid,
 
                     model = model_type.set_params(**params)
 
-                    # there was a weird error caused by two of the datasets which
-                    # is why this try/except is needed to keep the function running
-    #                         try:
-
                     # fit model
                     model = model.fit(X_train, y_train)
 
                     # make predictions
                     y_preds = model.predict(X_test)
 
-                    # evaluate model performance and return result in a dictionary  
-                    eval_dict = model_eval(X_test, y_test, y_preds, model_id, csv_name, model_label, params)
+                    # evaluate model performance 
+                    eval_dict = model_eval(
+                        X_test, 
+                        y_test, 
+                        y_preds, 
+                        model_id, 
+                        csv_name, 
+                        model_label, 
+                        params
+                    )
 
                     # append dictionary to model performance DF
                     mp_df = mp_df.append(eval_dict, ignore_index=True)
 
-                    print(f"Appended row: CSV-{csv_name} param, model id-{model_id}")
+                    print(f"Appended row: model id-{model_id}")
 
-                    if export_model == True:  
-                        #save model
-                        pickle.dump(model, open(f'models/{model_id}.pkl', 'wb'))
-
-                    if export_preds == True:
-
-                        predictions = pd.DataFrame(columns=['y_test', 'y_preds'])
-
-                        predictions['y_test'] = y_test.tolist()
-
-                        predictions['y_preds'] = y_preds
-
-                        predictions.to_csv(f'data/arb_preds_test_data/{model_id}.csv', index=False)
-
+                    # exports
+                    export_handler(
+                        model, 
+                        model_id, 
+                        test,
+                        y_preds, 
+                        export_model, 
+                        export_preds
+                    )
+                    
                 else:
                     print(f"{sp*2}model id found:{model_id}")
-            #                         except:
-            #                             print(line*3 + '\n' + line + 'ERROR' + line + '\n' + line*3)
-            #                             break # break out of for loop if there is an error with modeling
 
         # dataset is too small
         else:
             print(f'{sp*2} ERROR: dataset too small for {csv_name}')
 
-            
         # export df, end of CSV cycle
         mp_df.to_csv(filename, index=False)
-

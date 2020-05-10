@@ -233,7 +233,9 @@ def ttsplit(df, features, target):
 def model_eval(X_test, y_test, y_preds, model_id, csv_name, 
                model_label, params):
     """
+    Calculates model eval metrics
     
+    Returns a dictionary with model evaluation metrics and model name
     """
     pct_prof_mean, pct_prof_median = profit(X_test, y_preds)
     print(sp*2,'percent profit mean:', pct_prof_mean)
@@ -268,9 +270,8 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
          and 'Predicted -1' in conf_mat.columns):
         FPR = (
             (conf_mat['Predicted 0'][0] + 
-            conf_mat['Predicted 0'][2])/conf_mat['Predicted 0']
-        ).sum()
-
+            conf_mat['Predicted 0'][2])/conf_mat['Predicted 0'].sum()
+        )
         correct_arb_neg1 = conf_mat['Predicted -1'][0]
         correct_arb_1 = conf_mat['Predicted 1'][2]
         correct_arb = correct_arb_neg1 + correct_arb_1
@@ -365,7 +366,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         'f1_1': f1_1
     }
     
-    return eval_dict   
+    return eval_dict
 
 ############################################################    
 #                    Export Handler
@@ -403,7 +404,7 @@ def export_handler(model, model_id, test, y_preds,
 ############################################################    
 #                      Modeling
 ############################################################
-def create_models(arb_data_paths, model_type, features, param_grid, 
+def create_models(train_data_paths, model_type, features, param_grid, 
                   filename, export_preds=False, export_model=False):
     """
     This function takes in a list of all the arbitrage data paths, 
@@ -432,13 +433,14 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     Parameters
     __________
     
-    arb_data_paths: filepaths for all the datasets used in modeling
+    train_data_paths: filepaths for all the datasets used in modeling
     model_type: scikit-learn model (LogisticRegression() or 
         RandomForestClassifier())
     features: the features for training or empty [] for all features
     param_grid: the params used for hyperparameter tuning or empty {} 
     """   
     
+    # label each model type
     base_model_name = str(model_type).split('(')[0]
     model_name_dict = {
         'LogisticRegression': 'lr',
@@ -447,19 +449,20 @@ def create_models(arb_data_paths, model_type, features, param_grid,
     
     model_label = model_name_dict[base_model_name]
 
+    # model type for baseline 
+    if len(features) < 20:
+        model_label = model_label + '_bl'
+        
+    # model type for hyper parameters
     if param_grid:
         model_label = model_label + '_hyper'
     
-    # create features and param grid
+    # create param grid
     pg_list = create_pg(param_grid)
-    
-    if not features:
-        with open ('data/all_features.txt', 'rb') as fp:
-            features = pickle.load(fp)
     
     # pick target
     target = 'target'
-    
+      
     file = Path(filename)
     columns = ['model_id', 'csv_name', 'model_label', 'params', 
                'accuracy', 'pct_profit_mean', 'pct_profit_median', 
@@ -467,20 +470,21 @@ def create_models(arb_data_paths, model_type, features, param_grid,
                'correct_arb', 'precision_neg1', 'precision_0', 
                'precision_1', 'recall_neg1', 'recall_0', 'recall_1', 
                'f1_neg1', 'f1_0', 'f1_1']
-
+    
+    # if file exists read into df, else create dataframe
     if file.exists(): 
         mp_df = pd.read_csv(filename)
     else:
         mp_df = pd.DataFrame(columns=columns)
         
     # iterate through the arbitrage csvs
-    for i, path in enumerate(arb_data_paths):
+    for i, path in enumerate(train_data_paths):
         
         # define model name
         csv_name = path.split('/')[2].split('.')[0]
             
         # print status
-        print_model_name(csv_name, i, arb_data_paths)
+        print_model_name(csv_name, i, train_data_paths)
 
         # read csv
         df = pd.read_csv(path, index_col=0)
@@ -495,11 +499,11 @@ def create_models(arb_data_paths, model_type, features, param_grid,
             target
         )
 
+        # filter out small dataset 
         if ((X_train.shape[0] > 1000) 
             and (X_test.shape[0] > 100) 
             and len(set(y_train)) > 1):
-
-            # hyperparameter tuning
+            # hyperparameter tuning - iterate through parameter combos
             for i, params in enumerate(pg_list): 
 
                 # define the model name and path
@@ -509,11 +513,14 @@ def create_models(arb_data_paths, model_type, features, param_grid,
                     csv_name, 
                     model_label
                 )
+                
+                # train model if model_id does not exist
                 if mp_df[mp_df['model_id'] == model_id].empty:
 
                     # print status
                     print_model_params(i, params, pg_list)
-
+                    
+                    # set model and parameters
                     model = model_type.set_params(**params)
 
                     # fit model
@@ -536,9 +543,9 @@ def create_models(arb_data_paths, model_type, features, param_grid,
                     # append dictionary to model performance DF
                     mp_df = mp_df.append(eval_dict, ignore_index=True)
 
-                    print(f"Appended row: model id-{model_id}")
+                    print(f'{sp*2}Appended row: model id-{model_id}')
 
-                    # exports
+                    # export model, prediction csv
                     export_handler(
                         model, 
                         model_id, 
@@ -549,7 +556,7 @@ def create_models(arb_data_paths, model_type, features, param_grid,
                     )
                     
                 else:
-                    print(f"{sp*2}model id found:{model_id}")
+                    print(f'{sp*2}model id found:{model_id}')
 
         # dataset is too small
         else:

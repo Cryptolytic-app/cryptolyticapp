@@ -1,0 +1,2 @@
+model_id,csv_name,model_label,params,accuracy,pct_profit_mean,pct_profit_median,fpr,correct_arb_neg1,correct_arb_1,correct_arb,precision_neg1,precision_0,precision_1,recall_neg1,recall_0,recall_1,f1_neg1,f1_0,f1_1
+cbpro_bitfinex_ltc_usd_rf_all,cbpro_bitfinex_ltc_usd,rf_all,{},0.8387615997372095,1.22,0.13,0.011297052556818182,2,6519,6521,0.13333333333333333,0.9887029474431818,0.4122296699127356,0.005050505050505051,0.8276573212195529,0.9779477947794779,0.009732360097323601,0.9010406658643392,0.579982206405694

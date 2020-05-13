@@ -58,35 +58,29 @@ interval = 30
 
 def get_higher_closing_price(df):
     """
-    Returns the exchange with the higher closing price
+    Returns the exchange with the higher closing price.
     """
     # exchange 1 has higher closing price
     if (df['close_exchange_1'] - df['close_exchange_2']) > 0:
         return 1
-    
     # exchange 2 has higher closing price
     elif (df['close_exchange_1'] - df['close_exchange_2']) < 0:
         return 2
-    
     # closing prices are equivalent
     else:
         return 0
 
 def get_close_shift(df, interval=interval):
     """
-    Shifts the closing prices by the selected interval +
-    10 mins.
+    Shifts the closing prices by the selected interval + 10 mins.
     
     Returns a df with new features:
     - close_exchange_1_shift
     - close_exchange_2_shift
     """
-    
-    rows_to_shift = int(-1*(interval/5))
-    
+    rows_to_shift = int(-1 * (interval/5))
     df['close_exchange_1_shift'] = df['close_exchange_1'].shift(
         rows_to_shift - 2)
-    
     df['close_exchange_2_shift'] = df['close_exchange_2'].shift(
         rows_to_shift - 2)
     
@@ -94,60 +88,47 @@ def get_close_shift(df, interval=interval):
 
 def get_profit(df):
     """
-    Calculates the profit of an arbitrage trade.
-    Returns df with new profit feature.
+    Calculates the profit of an arbitrage trade. Returns df with
+    new profit feature.
     """
-    
     # if exchange 1 has the higher closing price
     if df['higher_closing_price'] == 1:
-        
         # return how much money you would make if you bought 
         # on exchange 2, sold on exchange 1, and took account 
         # of 0.55% fees
-        return (((df['close_exchange_1_shift'] / 
-                 df['close_exchange_2'])-1)*100)-.55
-    
+        return (((df['close_exchange_1_shift'] 
+                  / df['close_exchange_2']) - 1) * 100) - 0.55
     # if exchange 2 has the higher closing price
     elif df['higher_closing_price'] == 2:
-        
         # return how much money you would make if you bought 
         # on exchange 1, sold on exchange 2, and took account 
         # of 0.55% fees
         return (((df['close_exchange_2_shift'] / 
-                 df['close_exchange_1'])-1)*100)-.55
-    
+                 df['close_exchange_1']) -1) * 100) - 0.55
     # if the closing prices are the same
     else:
-        return 0 # no arbitrage
+        return 0
 
 def profit(X_test, y_preds):
+    """ 
+    Calculate mean/median percent profit for the test set.
     """
-    
-    """
-    # creating dataframe from test set to calculate profitability
     test_with_preds = X_test.copy()
-
-    # add column with higher closing price
     test_with_preds['higher_closing_price'] = test_with_preds.apply(
             get_higher_closing_price, axis=1)
 
-    # add column with shifted closing price
+    # shift closing price to be able to calculate the price difference
+    # between the correct interval
     test_with_preds = get_close_shift(test_with_preds)
-
-    # adding column with predictions
+    
     test_with_preds['pred'] = y_preds
-
-    # adding column with profitability of predictions
     test_with_preds['pct_profit'] = test_with_preds.apply(
             get_profit, axis=1).shift(-2)
 
-    # filtering out rows where no arbitrage is predicted
+    # filter out rows where no arbitrage is predicted
     test_with_preds = test_with_preds[test_with_preds['pred'] != 0]
 
-    # calculating mean profit where arbitrage predicted...
     pct_profit_mean = round(test_with_preds['pct_profit'].mean(), 2)
-
-    # calculating median profit where arbitrage predicted...
     pct_profit_median = round(test_with_preds['pct_profit'].median(), 2)
     
     return pct_profit_mean, pct_profit_median
@@ -157,8 +138,8 @@ def profit(X_test, y_preds):
 ############################################################
 def create_pg(param_grid):
     """
-    Selects the correct features and parameters
-    for each model
+    Creates a list of hyperparameter options to set the
+    parameters on random forest models.
     """
     if not param_grid:
         pg_list = [param_grid]
@@ -173,13 +154,12 @@ def create_pg(param_grid):
                 pg_list = [param_grid]
     return pg_list
 
-
 ############################################################    
 #                   Model Naming
 ############################################################
 def model_names(param_grid, params, csv_name, model_label):
     """
-    
+    Create unique model names
     """
     if param_grid:
         model_id = '_'.join([
@@ -191,9 +171,7 @@ def model_names(param_grid, params, csv_name, model_label):
         ])
     else:
         model_id = csv_name + '_' + model_label
-
     model_path = f'models/{model_id}.pkl'
-    
     return model_id, model_path
 
 
@@ -202,12 +180,13 @@ def model_names(param_grid, params, csv_name, model_label):
 ############################################################
 def ttsplit(df, features, target):
     """
-    
+    Performs 80/20 train/test split with given features and
+    target. Leaves a 2 week gap between the train and test sets
+    to prevent data leakage. Returns X_train, X_test, y_train, 
+    y_test, test
     """
-    
-    ## tt split
-    # remove 2 weeks from train datasets to create a  
-    # two week gap between the data - prevents data leakage
+    # determine cutoff times to split the data and remove 
+    # remove 2 weeks from the end of the train set
     tt_split_row = round(len(df)*.82)
     tt_split_time = df['closing_time'][tt_split_row]
     cutoff_time = tt_split_time - dt.timedelta(days=14)
@@ -221,8 +200,7 @@ def ttsplit(df, features, target):
     X_test = test[features]
     y_train = train[target]
     y_test = test[target]
-
-    # printing shapes to track progress
+    
     print(sp*2, 'train and test shape: ', train.shape, test.shape)
     
     return X_train, X_test, y_train, y_test, test
@@ -233,15 +211,14 @@ def ttsplit(df, features, target):
 def model_eval(X_test, y_test, y_preds, model_id, csv_name, 
                model_label, params):
     """
-    Calculates model eval metrics
-    
-    Returns a dictionary with model evaluation metrics and model name
+    Calculates model evaluation metrics using the confusion matrix 
+    and classification report. Returns a dictionary containing the
+    new metrics.
     """
+    accuracy = accuracy_score(y_test, y_preds)
     pct_prof_mean, pct_prof_median = profit(X_test, y_preds)
     print(sp*2,'percent profit mean:', pct_prof_mean)
     print(sp*2, 'percent profit median:', pct_prof_median, '\n\n')
-    
-    accuracy = accuracy_score(y_test, y_preds)
     
     # labels for confusion matrix
     unique_y_test = y_test.unique().tolist()
@@ -268,7 +245,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
     # confusion matrix has -1, 0, 1 predictions
     if ('Predicted 1' in conf_mat.columns 
          and 'Predicted -1' in conf_mat.columns):
-        FPR = (
+        fpr = (
             (conf_mat['Predicted 0'][0] + 
             conf_mat['Predicted 0'][2])/conf_mat['Predicted 0'].sum()
         )
@@ -288,7 +265,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         
     # confusion matrix has 0, 1 predictions
     elif 'Predicted 1' in conf_mat.columns:
-        FPR = (
+        fpr = (
             conf_mat['Predicted 0'][1] / 
             conf_mat['Predicted 0'].sum()
         )
@@ -307,9 +284,9 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         f1_0 = class_report['0']['f1-score']
         f1_1 = class_report['1']['f1-score']
         
-    # confusion matrix has -1, 0 predictions
+    # confusion matrix has 0, -1 predictions
     elif 'Predicted -1' in conf_mat.columns:
-        FPR = conf_mat['Predicted 0'][0] / conf_mat['Predicted 0'].sum()
+        fpr = conf_mat['Predicted 0'][0] / conf_mat['Predicted 0'].sum()
 
         correct_arb_neg1 = conf_mat['Predicted -1'][0]
         correct_arb_1 = 0
@@ -327,7 +304,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         
     # confusion matrix has only 0 predictions
     else:
-        FPR = np.nan
+        fpr = np.nan
         
         correct_arb_neg1 = 0
         correct_arb_1 = 0
@@ -351,7 +328,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         'accuracy': accuracy,
         'pct_profit_mean': pct_prof_mean, 
         'pct_profit_median': pct_prof_median,
-        'FPR': FPR, 
+        'fpr': fpr, 
         'correct_arb_neg1': correct_arb_neg1, 
         'correct_arb_1': correct_arb_1,
         'correct_arb': correct_arb, 
@@ -366,7 +343,7 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
         'f1_1': f1_1
     }
     
-    return eval_dict
+    return eval_dict   
 
 ############################################################    
 #                    Export Handler
@@ -374,28 +351,24 @@ def model_eval(X_test, y_test, y_preds, model_id, csv_name,
 def export_handler(model, model_id, test, y_preds, 
                    export_model=False, export_preds=False):
     """
-    
+    Determines whether models and predictions should be exported
+    and exports accordingly.
     """
     if export_model == True:  
-        #save model
         pickle.dump(
             model, 
             open(f'models/{model_id}.pkl', 'wb')
         )
-
     if export_preds == True:
-
         predictions = pd.DataFrame(
             columns=['closing_time', 'close_exchange_1', 
                      'close_exchange_2', 'y_test', 'y_preds'])
-        
         # need to use test bc X_test doesn't have closing_time
         predictions['closing_time'] = test['closing_time']
         predictions['close_exchange_1'] = test['close_exchange_1']
         predictions['close_exchange_2'] = test['close_exchange_2']
         predictions['y_test'] = test['target'].tolist()
         predictions['y_preds'] = y_preds
-
         predictions.to_csv(
             f'data/arb_preds_test_data/{model_id}.csv', 
             index=False
@@ -407,14 +380,15 @@ def export_handler(model, model_id, test, y_preds,
 def create_models(train_data_paths, model_type, features, param_grid, 
                   filename, export_preds=False, export_model=False):
     """
-    This function takes in a list of all the arbitrage data paths, 
-    does train/test split, feature selection, trains models, 
-    saves the pickle file, and prints performance stats for each model
+    This function takes in a list of all the training data paths, 
+    does train/test split, feature selection, trains models, and 
+    prints + exports evaluation stats for each model. Optional:
+    export model (.pkl) and test predictions (.csv).
 
     Predictions
     ___________
     
-    Models predict whether arbitrage will in 10 mins from the 
+    Models predict whether arbitrage will occur in 10 mins from the 
     prediction time, and last for at least 30 mins:
     1: arbitrage from exchange 1 to exchange 2
     0: no arbitrage
@@ -424,11 +398,12 @@ def create_models(train_data_paths, model_type, features, param_grid,
     __________
     
     - Accuracy Score
+    - Mean Percent Profit
+    - Median Percent Profit
+    - False Positive Rate (FPR)
     - Precision
     - Recall
     - F1 score
-    - Mean Percent Profit
-    - Median Percent Profit
 
     Parameters
     __________
@@ -436,76 +411,58 @@ def create_models(train_data_paths, model_type, features, param_grid,
     train_data_paths: filepaths for all the datasets used in modeling
     model_type: scikit-learn model (LogisticRegression() or 
         RandomForestClassifier())
-    features: the features for training or empty [] for all features
+    features: the features for training {'model_label': [list of features]}
+        acceptable model labels include: [bl, 100_feat, 75_feat, 50_feat, 
+        25_feat, hyper] 
+        ex: {'bl': feature_sets['bl']}
     param_grid: the params used for hyperparameter tuning or empty {} 
+    filename: CSV path for exporting model evaluation stats
+    export_preds: exports prediction CSV if True (default=False)
+    export_model: exports pkl model if True (default=False)
     """   
-    
-    # label each model type
+    # create model label
     base_model_name = str(model_type).split('(')[0]
     model_name_dict = {
         'LogisticRegression': 'lr',
         'RandomForestClassifier': 'rf'
     }
+    feat_type = [k for k in features.keys()][0]
+    model_label = model_name_dict[base_model_name] + '_' + feat_type   
     
-    model_label = model_name_dict[base_model_name]
-
-    # model type for baseline 
-    if len(features) < 20:
-        model_label = model_label + '_bl'
-        
-    # model type for hyper parameters
-    if param_grid:
-        model_label = model_label + '_hyper'
-    
-    # create param grid
-    pg_list = create_pg(param_grid)
-    
-    # pick target
-    target = 'target'
-      
+    # open or create df for evaluation metrics
     file = Path(filename)
     columns = ['model_id', 'csv_name', 'model_label', 'params', 
                'accuracy', 'pct_profit_mean', 'pct_profit_median', 
-               'FPR', 'correct_arb_neg1', 'correct_arb_1', 
+               'fpr', 'correct_arb_neg1', 'correct_arb_1', 
                'correct_arb', 'precision_neg1', 'precision_0', 
                'precision_1', 'recall_neg1', 'recall_0', 'recall_1', 
                'f1_neg1', 'f1_0', 'f1_1']
-    
-    # if file exists read into df, else create dataframe
     if file.exists(): 
         mp_df = pd.read_csv(filename)
     else:
         mp_df = pd.DataFrame(columns=columns)
-        
-    # iterate through the arbitrage csvs
+    
+    pg_list = create_pg(param_grid)
+    target = 'target'
+    
     for i, path in enumerate(train_data_paths):
-        
-        # define model name
         csv_name = path.split('/')[2].split('.')[0]
-            
-        # print status
         print_model_name(csv_name, i, train_data_paths)
-
-        # read csv
         df = pd.read_csv(path, index_col=0)
-
-        # convert str closing_time to datetime
+        # closing_time is a string after reading csv so convert to df
         df['closing_time'] = pd.to_datetime(df['closing_time'])
-
-        # train/test split the dataframe
         X_train, X_test, y_train, y_test, test = ttsplit(
             df, 
-            features, 
+            features[feat_type], 
             target
         )
 
-        # filter out small dataset 
+        # filter out small datasets
         if ((X_train.shape[0] > 1000) 
             and (X_test.shape[0] > 100) 
             and len(set(y_train)) > 1):
             # hyperparameter tuning - iterate through parameter combos
             for i, params in enumerate(pg_list): 
-
                 # define the model name and path
                 model_id, model_path = model_names(
                     param_grid, 
@@ -514,22 +471,14 @@ def create_models(train_data_paths, model_type, features, param_grid,
                     model_label
                 )
                 
-                # train model if model_id does not exist
+                # model_id does not exist in performance csv
                 if mp_df[mp_df['model_id'] == model_id].empty:
-
-                    # print status
                     print_model_params(i, params, pg_list)
                     
-                    # set model and parameters
+                    # set params, train model, predict, evaluate
                     model = model_type.set_params(**params)
-
-                    # fit model
                     model = model.fit(X_train, y_train)
-
-                    # make predictions
                     y_preds = model.predict(X_test)
-
-                    # evaluate model performance 
                     eval_dict = model_eval(
                         X_test, 
                         y_test, 
@@ -539,13 +488,10 @@ def create_models(train_data_paths, model_type, features, param_grid,
                         model_label, 
                         params
                     )
-
-                    # append dictionary to model performance DF
                     mp_df = mp_df.append(eval_dict, ignore_index=True)
-
                     print(f'{sp*2}Appended row: model id-{model_id}')
 
-                    # export model, prediction csv
+                    # export model/prediction csv
                     export_handler(
                         model, 
                         model_id, 
@@ -553,14 +499,11 @@ def create_models(train_data_paths, model_type, features, param_grid,
                         y_preds, 
                         export_model, 
                         export_preds
-                    )
-                    
+                    ) 
                 else:
-                    print(f'{sp*2}model id found:{model_id}')
-
-        # dataset is too small
+                    print(f'{sp*2}model id exists:{model_id}')
         else:
             print(f'{sp*2} ERROR: dataset too small for {csv_name}')
 
-        # export df, end of CSV cycle
+        # export evaluation df - end of one arbitrage combination
         mp_df.to_csv(filename, index=False)

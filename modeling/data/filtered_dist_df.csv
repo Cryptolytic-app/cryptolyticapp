@@ -1,7 +1,0 @@
-arbitrage_combination,ex1_to_ex2_arb_g,ex2_to_ex1_arb_g,no_arb_g,ex1_to_ex2_arb_train,ex2_to_ex1_arb_train,no_arb_train,ex1_to_ex2_arb_test,ex2_to_ex1_arb_test,no_arb_test,test_size
-hitbtc_cbpro_eth_usdc,0.17,0.17,0.66,0.15,0.17,0.68,3869.0,2947.0,9401.0,16217.0
-cbpro_bitfinex_ltc_usd,0.24,0.12,0.64,0.25,0.15,0.6,6666.0,396.0,53823.0,60885.0
-bitfinex_hitbtc_bch_usdt,0.19,0.14,0.67,0.19,0.14,0.67,2429.0,1196.0,7066.0,10691.0
-cbpro_bitfinex_eth_usd,0.21,0.12,0.67,0.2,0.15,0.65,11030.0,449.0,54132.0,65611.0
-bitfinex_cbpro_btc_usd,0.08,0.19,0.73,0.1,0.14,0.76,457.0,27154.0,53662.0,81273.0
-bitfinex_hitbtc_ltc_usdt,0.09,0.08,0.84,0.09,0.08,0.82,694.0,635.0,9362.0,10691.0

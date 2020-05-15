@@ -30,9 +30,9 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 <img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic-architecture.png?raw=true" width = "1000" />
 
 ### How it Works
-Gather the historical data from each exchange’s API into a database for all of our supported exchanges and trading pairs and implement lambda functions in cloud9 to collect live data from the cryptowat.ch API in the respective tables. This allows us to have the most up to date data in our databases for predictions.
+We gather the historical data from each exchange’s API into a database for all of our supported exchanges and trading pairs and implement Lambda functions in Cloud9 to collect live data from the cryptowat.ch API in the respective tables. This allows us to have the most up to date data in our databases for predictions.
 
-Random forest classifier models were trained on that dataset, stored in S3 buckets, and more Lambda functions were used to load those models and make predictions on the live data every 3 minutes. Those predictions were then inserted into the database in a new table that stored all of the predictions.
+Random forest classifier models were then trained on that dataset, stored in S3 buckets, and more Lambda functions were used to load those models and make predictions on the live data every 3 minutes. Those predictions are inserted into the database in a new table that stores all of the predictions.
 
 The Flask app retrieves the most recent predictions from the database and can return them to a user or be available for a backend team to use via API. The API was deployed on Elastic Beanstalk.
 
@@ -92,9 +92,17 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 [HitBTC OHLCV Data Documentation](https://api.hitbtc.com/#candles)
 
+[Kraken OHLCV Data Documentation](https://www.kraken.com/features/api)
+
+[Gemini OHLCV Data Documentation](https://docs.gemini.com/rest-api/)
+
 ### Python Notebooks
 
 [Notebook Folder](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/finalized_notebooks)
+
+[Data Processing Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/1_arbitrage_data_processing.ipynb)
+[Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/2_arbitrage_model_training.ipynb)
+[Model Evaluation Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/3_arbitrage_model_evaluation.ipynb)
 
 
 ## How to connect to the Cryptolytic API

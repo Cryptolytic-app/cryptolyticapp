@@ -30,9 +30,9 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 <img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic-architecture.png?raw=true" width = "1000" />
 
 ### How it Works
-Gather the historical data from each exchange’s API into a database for all of our supported exchanges and trading pairs and implement lambda functions in cloud9 to collect live data from the cryptowat.ch API in the respective tables. This allows us to have the most up to date data in our databases for predictions.
+We gather the historical data from each exchange’s API into a database for all of our supported exchanges and trading pairs and implement Lambda functions in Cloud9 to collect live data from the cryptowat.ch API in the respective tables. This allows us to have the most up to date data in our databases for predictions.
 
-Random forest classifier models were trained on that dataset, stored in S3 buckets, and more Lambda functions were used to load those models and make predictions on the live data every 3 minutes. Those predictions were then inserted into the database in a new table that stored all of the predictions.
+Random forest classifier models were then trained on that dataset, stored in S3 buckets, and more Lambda functions were used to load those models and make predictions on the live data every 3 minutes. Those predictions are inserted into the database in a new table that stores all of the predictions.
 
 The Flask app retrieves the most recent predictions from the database and can return them to a user or be available for a backend team to use via API. The API was deployed on Elastic Beanstalk.
 
@@ -48,9 +48,9 @@ Python, SQL, Flask, AWS (Elastic Beanstalk, RDS, Lambda Functions, Cloud9, KMS, 
 
 The models folder contains two zip files, with a total of 30 models:
 
-tr_pickles.zip contains nine pickled trade recommender models.
+[tr_pickles.zip]() contains nine pickled trade recommender models.
 
-arb_models.zip contains 21 pickled arbitrage models.
+[arb_models.zip]() contains 21 pickled arbitrage models.
 
 All 30 models use a RandomForestClassifier algorithm.
 
@@ -64,7 +64,7 @@ Each of the nine trade recommender models is trained on 67 features.  Of those 6
 
 Each of the 21 arbitrage models is trained on 91 features.  Of those 91 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length).  Half of the remaining 84 features are specific to the first of the two exchanges in a given arbitrage dataset and are labelled with the suffix "exchange_1"; the other half are specific to the second of those two exchanges and are labelled with the suffix "exchange_2".  In each of these two sets of 42 features, two are taken directly from the OHLCV data (close_exchange_#, base_volume_exchange_#), one indicates where gaps were present in the data (nan_ohlcv), and the remainder are technical analysis features.
 
-Technical analysis features were engineered with the Technical Analysis Library; they fall into five types:
+Technical analysis features were engineered with the Technical Analysis Library. They fall into five categories:
 
 (1) Momentum indicators
 
@@ -92,9 +92,15 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 [HitBTC OHLCV Data Documentation](https://api.hitbtc.com/#candles)
 
+[Kraken OHLCV Data Documentation](https://www.kraken.com/features/api)
+
+[Gemini OHLCV Data Documentation](https://docs.gemini.com/rest-api/)
+
 ### Python Notebooks
 
-[Notebook Folder](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/finalized_notebooks)
+[Data Processing Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/1_arbitrage_data_processing.ipynb)
+[Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/2_arbitrage_model_training.ipynb)
+[Model Evaluation Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/3_arbitrage_model_evaluation.ipynb)
 
 
 ## How to connect to the Cryptolytic API

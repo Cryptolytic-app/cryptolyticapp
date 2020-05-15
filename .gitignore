@@ -15,3 +15,5 @@ sagemaker/data/*/*.csv
 *.pkl
 modeling/models/*.pkl
 modeling/models/old/*.pkl
+
+scratch.py

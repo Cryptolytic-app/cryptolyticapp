@@ -98,8 +98,6 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 ### Python Notebooks
 
-[Notebook Folder](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/finalized_notebooks)
-
 [Data Processing Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/1_arbitrage_data_processing.ipynb)
 [Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/2_arbitrage_model_training.ipynb)
 [Model Evaluation Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/3_arbitrage_model_evaluation.ipynb)

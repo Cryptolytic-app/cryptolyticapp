@@ -16,5 +16,4 @@ sagemaker/data/*/*.csv
 modeling/models/*.pkl
 modeling/models/old/*.pkl
 
-# notebooks
-scratch.ipynb
+scratch.py

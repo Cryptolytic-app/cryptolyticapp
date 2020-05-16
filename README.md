@@ -103,6 +103,7 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 ### Python Notebooks
 
 **Arbitrage Prediction Models**
+
 [Data Processing Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/1_arbitrage_data_processing.ipynb)
 
 [Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/2_arbitrage_model_training.ipynb)
@@ -110,6 +111,7 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 [Model Evaluation Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/3_arbitrage_model_evaluation.ipynb)
 
 **Trade Recommender Models**
+
 [Data Processing and Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
 
 [Visualization Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/5_tr_performance_visualization.ipynb)
@@ -142,6 +144,7 @@ Returns: ``` {"results":"{
 
 
 ## Medium Articles
+
 We wrote article on how to do some of the technical aspects of this project:
 - [Deploying a Flask App to AWS Elastic Beanstalk](https://medium.com/@malex140/deploying-a-flask-app-to-aws-elastic-beanstalk-f320033fda3c)
 

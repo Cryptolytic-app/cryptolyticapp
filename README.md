@@ -48,11 +48,11 @@ Python, SQL, Flask, AWS (Elastic Beanstalk, RDS, Lambda Functions, Cloud9, KMS, 
 
 ### Predictions
 
-The models folder contains two zip files, with a total of 30 models:
+The models folder contains two zip files, with a total of 15 models:
 
 [tr_pickles.zip]() contains nine pickled trade recommender models.
 
-[arb_models.zip]() contains 21 pickled arbitrage models.
+[arb_models.zip]() contains 6 pickled arbitrage models.
 
 All 30 models use a RandomForestClassifier algorithm.
 
@@ -64,7 +64,7 @@ The arbitrage models predict arbitrage opportunities between two exchanges for a
 
 Each of the nine trade recommender models is trained on 67 features.  Of those 67 features, five are taken directly from the OHLCV data (open, high, low, close, base_volume), one indicates where gaps were present in the data (nan_ohlcv), three indicate the time (year, month, day), and the remainder are technical analysis features.
 
-Each of the 21 arbitrage models is trained on 91 features.  Of those 91 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length).  Half of the remaining 84 features are specific to the first of the two exchanges in a given arbitrage dataset and are labelled with the suffix "exchange_1"; the other half are specific to the second of those two exchanges and are labelled with the suffix "exchange_2".  In each of these two sets of 42 features, two are taken directly from the OHLCV data (close_exchange_#, base_volume_exchange_#), one indicates where gaps were present in the data (nan_ohlcv), and the remainder are technical analysis features.
+Each of the 6 arbitrage models is trained on 70 features.  Of those 70 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length).  Half of the remaining 63 features are specific to the first of the two exchanges in a given arbitrage dataset and are labelled with the suffix "exchange_1"; the other half are specific to the second of those two exchanges and are labelled with the suffix "exchange_2".  In each of these two sets of 31 features, two are taken directly from the OHLCV data (close_exchange_#, base_volume_exchange_#), one indicates where gaps were present in the data (nan_ohlcv), and the remainder are technical analysis features.
 
 Technical analysis features were engineered with the Technical Analysis Library. They fall into five categories:
 

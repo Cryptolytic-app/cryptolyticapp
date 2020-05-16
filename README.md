@@ -17,7 +17,7 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 |                      [<img src="https://github.com/alqu7095/Cryptolytic_README/blob/master/Stan.png?raw=true" width = "200" />](https://github.com/standroidbeta)                       |
 |                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/standroidbeta)                 |
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/stanley-kusmier-0563a153/) |
-### Data Science
+### Data Science Team
 
 
 |                                       [Alfredo Quintana](https://github.com/alqu7095)                                        |                                       [Elizabeth Ter Sahakyan](https://www.github.com/elizabethts)                                        |                                       [Marvin A Davila](https://github.com/malexmad)                                        |                                       [Nathan Van Wyck](https://github.com/nrvanwyck)                                        |                                       [Taylor Bickell](https://github.com/tcbic)                                        |
@@ -41,14 +41,15 @@ Overall we created a data pipeline and a backend that makes use of 15 different 
 
 ### Product Canvas and Set Up
 [Cryptolytic Product Canvas Notion](https://www.notion.so/e563b27ab8e94ce2a3f7b536fc365715?v=3781e3eb9e72447f9262ebacd1e21fa9)
+
 [Cryptolytic Set-Up Guide](https://docs.google.com/document/d/1_BIVD399erVsxW5rGDsfY0jOpNlwap3FD18nYwdMVIA/edit#)
 
 ### Tech Stack
 Python, SQL, Flask, AWS (Elastic Beanstalk, RDS, Lambda Functions, Cloud9, KMS, Sagemaker), PostgreSQL
 
-### Predictions
+### Models
 
-The models folder contains two zip files, with a total of 15 models:
+The `modeling/models/` folder contains two zip files, with a total of 15 models:
 
 [tr_pickles.zip](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/models/tr_pickles.zip) contains 9 pickled trade recommender models.
 
@@ -58,12 +59,13 @@ All 15 models use a Random Forest Classifier algorithm.
 
 Each trade recommender model recommends trades for a particular trading pair on a particular exchange by predicting whether the closing price will increase by enough to cover the costs of executing a trade.
 
-The arbitrage models predict arbitrage opportunities between two exchanges for a particular trading pair.  Predictions are made ten minutes in advance.  To count as an arbitrage opportunity, a price disparity between two exchanges must last for at least 30 minutes, and the disparity must be great enough to cover the costs of buying on one exchange and selling on the other.
+The arbitrage models predict arbitrage opportunities between two exchanges for a particular trading pair. Predictions are made ten minutes in advance. To count as an arbitrage opportunity, a price disparity between two exchanges must last for at least 30 minutes, and the disparity must be great enough to cover the costs of buying on one exchange and selling on the other.
 
 ### Features
-Each of the nine trade recommender models is trained on 67 features.  Of those 67 features, five are taken directly from the OHLCV data (open, high, low, close, base_volume), one indicates where gaps were present in the data (nan_ohlcv), three indicate the time (year, month, day), and the remainder are technical analysis features.
 
-Each of the 6 arbitrage models is trained on 70 features. Of those 70 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length).  The remaining 63 features are the original OHLCV features and technical analysis features specific to the two exchanges in a given arbitrage dataset and are labeled with the suffixes "exchange_1" and "exchange_2".
+Each of the nine trade recommender models is trained on 67 features. Of those 67 features, five are taken directly from the OHLCV data (open, high, low, close, base_volume), one indicates where gaps were present in the data (nan_ohlcv), three indicate the time (year, month, day), and the remainder are technical analysis features.
+
+Each of the 6 arbitrage models is trained on 70 features. Of those 70 features, three features indicate the time (year, month, day), and four indicate the degree and length of price disparities between two exchanges (higher_closing_price, pct_higher, arbitrage_opportunity, window_length). The remaining 63 features are the original OHLCV features and technical analysis features specific to the two exchanges in a given arbitrage dataset and are labeled with the suffixes "exchange_1" and "exchange_2".
 
 Technical analysis features were engineered with the Technical Analysis Library. They fall into five categories:
 
@@ -97,6 +99,7 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 [Gemini OHLCV Data Documentation](https://docs.gemini.com/rest-api/)
 
+
 ### Python Notebooks
 
 **Arbitrage Prediction Models**
@@ -108,10 +111,13 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 
 **Trade Recommender Models**
 [Data Processing and Modeling Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
+
 [Visualization Notebook](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/5_tr_performance_visualization.ipynb)
 
 ## How to connect to the Cryptolytic API
+
  http://www.cryptolyticapp.com/ (running on AWS but models outdated!)
+
 
 ### Trade API [/trade](http://www.cryptolyticapp.com/trade)
 

@@ -8,7 +8,7 @@ Cryptolytic is a platform for beginners tinkering with cryptocurrency to the sea
 [See demo](https://youtu.be/ikKwhEgnNgw)
 
 
-<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_thumbnail.png?raw=true" width = "1000" />
+<img src="https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/assets/cryptolytic_thumb.png?raw=true" width = "1000" />
 
 ## Contributers
 ### Team Lead

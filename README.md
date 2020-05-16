@@ -132,7 +132,7 @@ We obtained all of our data from the Cryptowatch, Bitfinex, Coinbase Pro, and Hi
 'prediction': 'result'}], }"} ```
   
 ### Arbitrage API [/arbitrage](http://www.cryptolyticapp.com/arbitrage)
-Note: Unavailable between 7pm - 5am PST  
+Note: Unavailable (AWS Cost High)
 
 Method: ["GET"]
 

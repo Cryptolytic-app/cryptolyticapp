@@ -37,7 +37,7 @@ Random forest classifier models were then trained on that dataset, stored in S3 
 
 The Flask app retrieves the most recent predictions from the database and can return them to a user or be available for a backend team to use via API. The API was deployed on Elastic Beanstalk.
 
-Overall we created a data pipeline and a backend that makes use of 30 different models to generate and store predictions on a recurring basis, which can then be accessed via API endpoints.
+Overall we created a data pipeline and a backend that makes use of 15 different models to generate and store predictions on a recurring basis, which can then be accessed via API endpoints.
 
 ### Product Canvas and Set Up
 [Cryptolytic Product Canvas Notion](https://www.notion.so/e563b27ab8e94ce2a3f7b536fc365715?v=3781e3eb9e72447f9262ebacd1e21fa9)

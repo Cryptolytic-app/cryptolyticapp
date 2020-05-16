@@ -1,13 +1,13 @@
 # Arbitrage Modeling Notebooks
-1. [Arbitrage Data Processing](https://github.com/Cryptolytic-app/cryptolyticapp/blob/arb-nb/modeling/1_arbitrage_data_processing.ipynb)
+1. [Arbitrage Data Processing](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/1_arbitrage_data_processing.ipynb)
     - Contains the code to generate the data that is used to create the arbitrage models
   
-2. [Arbitrage Model Training](https://github.com/Cryptolytic-app/cryptolyticapp/blob/arb-nb/modeling/2_arbitrage_model_training.ipynb)
+2. [Arbitrage Model Training](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/2_arbitrage_model_training.ipynb)
     - Contains the code to create the arbitrage models
   
-3. [Arbitrage Model Evaluation](https://github.com/Cryptolytic-app/cryptolyticapp/blob/arb-nb/modeling/3_arbitrage_model_evaluation.ipynb)
+3. [Arbitrage Model Evaluation](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/3_arbitrage_model_evaluation.ipynb)
     - Contains the code and analysis to select models with the best performance
-    - Model performance visualization can be found in this notebook or [here](https://github.com/Cryptolytic-app/cryptolyticapp/tree/arb-nb/modeling/assets/visualizations)
+    - Model performance visualization can be found in this notebook or [here](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/assets/visualizations)
 
 #### Directory Structure
 ```
@@ -60,6 +60,8 @@
 
 
 
-# Trade Recommender Modeling Notebook
+# Trade Recommender Modeling Notebooks
 *Note: Needs to be polished*
-1. [Trade Recommender Models](https://github.com/Cryptolytic-app/cryptolyticapp/blob/arb-nb/modeling/trade_recommender_models.ipynb)
+1. [Trade Recommender Models](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
+
+2. [TR Performance Visualization](https://github.com/Cryptolyticapp/cryptolyticapp/blob/master/modeling/5_tr_performance_visualization.ipynb)

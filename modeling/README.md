@@ -60,7 +60,7 @@
 
 
 
-# Trade Recommender Modeling Notebook
+# Trade Recommender Modeling Notebooks
 *Note: Needs to be polished*
 1. [Trade Recommender Models](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
 

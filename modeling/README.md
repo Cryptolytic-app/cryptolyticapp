@@ -7,7 +7,15 @@
   
 3. [Arbitrage Model Evaluation](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/3_arbitrage_model_evaluation.ipynb)
     - Contains the code and analysis to select models with the best performance
-    - Model performance visualization can be found in this notebook or [here](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/assets/visualizations)
+    - Model performance visualizations can be found in this notebook or [here](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/assets/visualizations)
+
+
+# Trade Recommender Modeling Notebooks
+1. [Trade Recommender Models](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
+   - Contains the code to create the trade recommender models
+
+2. [Trade Recommender Performance Visualization](https://github.com/Cryptolyticapp/cryptolyticapp/blob/master/modeling/5_tr_performance_visualization.ipynb)
+    - Model performance visualizations can be found in this notebook or [here](https://github.com/Cryptolytic-app/cryptolyticapp/tree/master/modeling/assets/visualizations)
 
 #### Directory Structure
 ```
@@ -49,19 +57,12 @@
 │   │      │
 │   │      ├─ 3_arbitrage_model_evaluation.ipynb <-- NB for model selection, eval, and viz
 │   │      │
-│   │      ├─ trade_recommender_models.ipynb     <-- NB for trade recommender models
+│   │      ├─ 4_trade_recommender_models.ipynb   <-- NB for trade recommender models
+│   │      │
+│   │      ├─ 5_tr_performance_viz.ipynb         <-- NB for trade recommender viz
 │   │      │
 │   │      ├─ environment.yml                    <-- Contains project dependencies
 │   │      │
 │   │      ├─ utils.py                           <-- All the functions used in modeling
 │   │      │
-
 ```
-
-
-
-# Trade Recommender Modeling Notebooks
-*Note: Needs to be polished*
-1. [Trade Recommender Models](https://github.com/Cryptolytic-app/cryptolyticapp/blob/master/modeling/4_trade_recommender_models.ipynb)
-
-2. [TR Performance Visualization](https://github.com/Cryptolyticapp/cryptolyticapp/blob/master/modeling/5_tr_performance_visualization.ipynb)
